@@ -6,12 +6,15 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Screens
   {
     private const float DefaultAspectRatio = 22f / 10f;
 
-    private Camera _camera;
+    private readonly Camera _camera;
+
     private float _initialSize;
 
-    public void Initialize(Camera camera)
-    {
+    public CameraResizer(Camera camera) =>
       _camera = camera;
+
+    public void Initialize()
+    {
       _initialSize = _camera.orthographicSize;
     }
 

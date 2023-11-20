@@ -132,6 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Movement>k__BackingField: {fileID: 4829302941197565067}
+  <ChargingTime>k__BackingField: 3
 --- !u!114 &4829302941197565067
 MonoBehaviour:
   m_ObjectHideFlags: 0

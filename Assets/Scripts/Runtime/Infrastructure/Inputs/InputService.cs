@@ -6,6 +6,9 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Inputs
 {
   public class InputService : IInputService
   {
+    public event Action OnPointerPressed;
+
+    public event Action OnPointerReleased;
     private InputControls _inputControls;
     private bool _isPressed;
 
@@ -45,8 +48,5 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Inputs
       _isPressed = false;
       OnPointerReleased?.Invoke();
     }
-
-    public event Action OnPointerReleased;
-    public event Action OnPointerPressed;
   }
 }

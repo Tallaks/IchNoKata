@@ -1,10 +1,9 @@
-using UnityEngine;
+using Zenject;
 
 namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Screens
 {
-  public interface ICameraResizer
+  public interface ICameraResizer : IInitializable
   {
-    void Initialize(Camera camera);
     void Resize();
   }
 }
