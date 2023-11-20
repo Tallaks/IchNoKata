@@ -1,0 +1,97 @@
+{
+    "name": "InputControls",
+    "maps": [
+        {
+            "name": "Gameplay",
+            "id": "1968dd43-1b2b-444f-a059-c7161dfb866f",
+            "actions": [
+                {
+                    "name": "PointPosition",
+                    "type": "PassThrough",
+                    "id": "5e7c4c6b-f5d5-41f4-a800-10c6a1775031",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "PointerRelease",
+                    "type": "Button",
+                    "id": "f57fa148-ad4c-4cdf-a1bd-9c64c91cd175",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PointPress",
+                    "type": "Button",
+                    "id": "e8e55981-0120-4416-a778-ba24a23ee740",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "94859e32-50e5-47f3-b445-c46e290f4959",
+                    "path": "<Pointer>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Editor;Touchscreen",
+                    "action": "PointPosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3bb11821-512d-4f5e-8520-92be9bcafd36",
+                    "path": "<Pointer>/press",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "Editor;Touchscreen",
+                    "action": "PointerRelease",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7e86dcc8-bf4d-40ce-a1f6-5f3e9acdefb8",
+                    "path": "<Pointer>/press",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Touchscreen;Editor",
+                    "action": "PointPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Touchscreen",
+            "bindingGroup": "Touchscreen",
+            "devices": [
+                {
+                    "devicePath": "<Touchscreen>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Editor",
+            "bindingGroup": "Editor",
+            "devices": [
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}

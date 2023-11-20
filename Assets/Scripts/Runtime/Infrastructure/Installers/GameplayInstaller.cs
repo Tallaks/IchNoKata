@@ -1,4 +1,5 @@
 using System.Linq;
+using Tallaks.IchiNoKata.Runtime.Infrastructure.Inputs;
 using Tallaks.IchiNoKata.Runtime.Infrastructure.Screens;
 using UnityEngine;
 using Zenject;
@@ -9,6 +10,13 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
   public class GameplayInstaller : MonoInstaller, IInitializable
   {
     [SerializeField] private Camera _camera;
+    private IInputService _inputService;
+
+    [Inject]
+    private void Construct(IInputService inputService)
+    {
+      _inputService = inputService;
+    }
 
 #if UNITY_EDITOR
     private void Awake()
@@ -17,12 +25,20 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
         $"Forgot to add installer {name} to SceneContext");
     }
 #endif
+
+    private void Update()
+    {
+      Debug.Log(_inputService.IsHolding());
+    }
+
     public void Initialize()
     {
       Debug.Log("Gameplay initialization started");
       Debug.Assert(_camera != null, "Camera is not set");
       Container.Resolve<ICameraResizer>().Initialize(_camera);
       Container.Resolve<ICameraResizer>().Resize();
+      _inputService.OnPointerReleased += () => Debug.Log("Pointer released");
+      _inputService.OnPointerPressed += () => Debug.Log("Pointer pressed");
       Debug.Log("Gameplay initialization finished");
     }
 
