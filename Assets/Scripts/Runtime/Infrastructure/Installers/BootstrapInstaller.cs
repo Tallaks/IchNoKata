@@ -27,6 +27,7 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
     public async void Initialize()
     {
       Debug.Log("Bootstrap initialization started");
+      Application.targetFrameRate = 60;
       await _sceneLoader.LoadSceneAsync(SceneNames.Gameplay);
       Debug.Log("Bootstrap initialization finished");
     }
