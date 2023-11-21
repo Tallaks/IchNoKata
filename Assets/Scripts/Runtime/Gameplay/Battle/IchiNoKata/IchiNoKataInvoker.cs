@@ -1,6 +1,8 @@
 using System;
+using Cysharp.Threading.Tasks;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Movement;
+using Tallaks.IchiNoKata.Runtime.Infrastructure.Extensions;
 using Tallaks.IchiNoKata.Runtime.Infrastructure.Inputs;
 using Tallaks.IchiNoKata.Runtime.Infrastructure.Physics;
 using UnityEngine;
@@ -15,10 +17,11 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
 
     private readonly IInputService _inputService;
     private readonly Camera _camera;
+    public event Action OnPerformed;
 
-    public event EventHandler<IchiNoKataArgs> OnPerformed;
-
+    public event EventHandler<IchiNoKataArgs> OnStarted;
     private float _chargingTime;
+    private IchiNoKataArgs _ichiNoKataArgs;
 
     private PlayerBehaviour _player;
     private float _startTime;
@@ -43,15 +46,33 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
       _inputService.OnPointerReleased -= OnPointerReleased;
     }
 
-    private void OnPointerPressed()
+    private async void OnPointerPressed()
     {
-      Debug.Log("OnPointerPressed");
       _startTime = Time.time;
+      Ray ray = _camera.ScreenPointToRay(_inputService.GetPointerPosition());
+      if (Physics.Raycast(ray, out RaycastHit hit, MaxRayDistance, _layerMask))
+      {
+        if (hit.collider.TryGetComponent(out WalkableSpaceBehaviour _))
+        {
+          _ichiNoKataArgs = new IchiNoKataArgs(_player.Position, hit.point);
+          OnStarted?.Invoke(this, _ichiNoKataArgs);
+          while (_inputService.IsHolding())
+          {
+            Vector2 newPositionScreen = _inputService.GetPointerPosition();
+            Vector3 newPositionWorld = _camera.ScreenToWorldPoint(newPositionScreen).WithY(_ichiNoKataArgs.To.y);
+            _ichiNoKataArgs.SetTarget(newPositionWorld);
+            await UniTask.DelayFrame(1);
+          }
+        }
+      }
+      else
+      {
+        Debug.Log("No hit");
+      }
     }
 
     private void OnPointerReleased()
     {
-      Debug.Log("OnPointerReleased");
       if (Time.time - _startTime >= _chargingTime)
       {
         PerformIchiNoKata();
@@ -66,10 +87,10 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
       Ray ray = _camera.ScreenPointToRay(_inputService.GetPointerPosition());
       if (Physics.Raycast(ray, out RaycastHit hit, MaxRayDistance, _layerMask))
       {
-        if (hit.collider.TryGetComponent(out WalkableSpaceBehaviour walkableSpace))
+        if (hit.collider.TryGetComponent(out WalkableSpaceBehaviour _))
         {
-          Debug.Log("IchiNoKata");
-          OnPerformed?.Invoke(this, new IchiNoKataArgs(_player.Position, hit.point));
+          _ichiNoKataArgs.SetTarget(hit.point);
+          OnPerformed?.Invoke();
         }
       }
       else

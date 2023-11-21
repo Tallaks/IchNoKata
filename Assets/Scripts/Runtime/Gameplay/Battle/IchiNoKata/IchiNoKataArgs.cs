@@ -14,5 +14,10 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
       From = from;
       To = to;
     }
+
+    public void SetTarget(Vector3 to)
+    {
+      To = to;
+    }
   }
 }

@@ -5,7 +5,8 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
 {
   public interface IIchiNoKataInvoker : IDisposable
   {
-    event EventHandler<IchiNoKataArgs> OnPerformed;
+    event Action OnPerformed;
+    event EventHandler<IchiNoKataArgs> OnStarted;
     void Initialize(PlayerBehaviour playerBehaviour);
   }
 }
