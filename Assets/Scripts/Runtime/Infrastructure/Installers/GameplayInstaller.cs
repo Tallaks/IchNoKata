@@ -18,7 +18,6 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
     /// Main camera
     /// </summary>
     [SerializeField] private Camera _camera;
-
     /// <summary>
     /// Player character
     /// </summary>

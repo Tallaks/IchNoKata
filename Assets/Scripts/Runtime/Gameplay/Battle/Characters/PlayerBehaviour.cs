@@ -14,14 +14,11 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
     /// <summary>
     /// Movement component
     /// </summary>
-    [field: SerializeField]
-    public PlayerMovement Movement { get; private set; }
-
+    [field: SerializeField] public PlayerMovement Movement { get; private set; }
     /// <summary>
     /// Time for charging Ichi No Kata ability in seconds
     /// </summary>
-    [field: SerializeField]
-    public float ChargingTime { get; private set; }
+    [field: SerializeField] public float ChargingTime { get; private set; }
 
     /// <summary>
     /// Position of Player, shortcut for transform.position

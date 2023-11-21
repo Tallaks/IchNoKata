@@ -13,18 +13,14 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Movement
   public class PlayerMovement : MonoBehaviour
   {
     private readonly WaitForEndOfFrame _yieldInstruction = new();
-
     /// <summary>
     /// Player reference
     /// </summary>
-    [field: SerializeField]
-    private PlayerBehaviour Player { get; set; }
-
+    [field: SerializeField] private PlayerBehaviour Player { get; set; }
     /// <summary>
     /// Speed of movement during Ichi No Kata
     /// </summary>
-    [field: SerializeField]
-    private float IchiNoKataMovementSpeed { get; set; }
+    [field: SerializeField] private float IchiNoKataMovementSpeed { get; set; }
 
     private IIchiNoKataInvoker _ichiNoKataInvoker;
     private IchiNoKataArgs _ichNoKataArgs;

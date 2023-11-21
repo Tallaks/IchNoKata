@@ -14,7 +14,6 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Scenes
     /// <param name="sceneName">Scene name from given enum</param>
     /// <param name="loadSceneMode">load scene additive or single</param>
     public UniTask LoadSceneAsync(SceneNames sceneName, LoadSceneMode loadSceneMode = LoadSceneMode.Single);
-
     /// <summary>
     /// Unload scene async with given scene name
     /// </summary>

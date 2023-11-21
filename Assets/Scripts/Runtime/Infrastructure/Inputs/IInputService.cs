@@ -13,18 +13,15 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Inputs
     /// Event that is invoked when pointer is pressed
     /// </summary>
     event Action OnPointerPressed;
-
     /// <summary>
     /// Event that is invoked when pointer is released
     /// </summary>
     event Action OnPointerReleased;
-
     /// <summary>
     /// Method to get pointer position in screen space
     /// </summary>
     /// <returns>Vector2 with pointer position</returns>
     Vector2 GetPointerPosition();
-
     /// <summary>
     /// Method to check if pointer is currently holding
     /// </summary>
