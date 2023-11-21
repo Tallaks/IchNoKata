@@ -3103,7 +3103,7 @@ PrefabInstance:
     - target: {fileID: 3799048192816889613, guid: 289769dd921b30e4b98998b2cd594af9,
         type: 3}
       propertyPath: <ChargingTime>k__BackingField
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4327287540537049383, guid: 289769dd921b30e4b98998b2cd594af9,
         type: 3}
@@ -3154,6 +3154,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4829302941197565067, guid: 289769dd921b30e4b98998b2cd594af9,
+        type: 3}
+      propertyPath: <IchiNoKataMovementTime>k__BackingField
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4829302941197565067, guid: 289769dd921b30e4b98998b2cd594af9,
+        type: 3}
+      propertyPath: <IchiNoKataMovementSpeed>k__BackingField
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 5293242586153978372, guid: 289769dd921b30e4b98998b2cd594af9,
         type: 3}

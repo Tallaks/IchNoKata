@@ -10,11 +10,11 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Movement
   {
     private readonly WaitForEndOfFrame _yieldInstruction = new();
     [field: SerializeField] private PlayerBehaviour Player { get; set; }
+    [field: SerializeField] private float IchiNoKataMovementSpeed { get; set; }
 
     private IIchiNoKataInvoker _ichiNoKataInvoker;
     private IchiNoKataArgs _ichNoKataArgs;
     private bool _isPerformingIchiNoKata;
-    private Vector3 _previousPosition;
 
     private void OnDestroy()
     {
@@ -47,12 +47,25 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Movement
 
     private void OnIchiNoKataInvokerPerformed()
     {
-      StopAllCoroutines();
-      Move(_ichNoKataArgs.To);
+      Move();
     }
 
-    private void Move(Vector3 argsTo)
+    private void Move()
     {
+      StopAllCoroutines();
+      StartCoroutine(FastMovementRoutine(_ichNoKataArgs.From, _ichNoKataArgs.To));
+    }
+
+    private IEnumerator FastMovementRoutine(Vector3 argsFrom, Vector3 argsTo)
+    {
+      Vector3 delta;
+      do
+      {
+        delta = (argsTo - argsFrom).normalized * (Time.deltaTime * IchiNoKataMovementSpeed);
+        Player.Position += delta;
+        yield return null;
+      } while (delta.magnitude < (argsTo - Player.Position).magnitude);
+
       Player.Position = argsTo;
     }
   }
