@@ -4,24 +4,44 @@ using UnityEngine;
 
 namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
 {
+  /// <summary>
+  /// MonoBehaviour for Player
+  /// </summary>
+  /// <inheritdoc />
   [AddComponentMenu("IchiNoKata/Gameplay/Battle/Player")]
   public class PlayerBehaviour : MonoBehaviour
   {
+    /// <summary>
+    /// Movement component
+    /// </summary>
     [field: SerializeField] public PlayerMovement Movement { get; private set; }
+    /// <summary>
+    /// Time for charging Ichi No Kata ability in seconds
+    /// </summary>
     [field: SerializeField] public float ChargingTime { get; private set; }
 
+    /// <summary>
+    /// Position of Player, shortcut for transform.position
+    /// </summary>
     public Vector3 Position
     {
       get => transform.position;
       set => transform.position = value;
     }
 
+    /// <summary>
+    /// Orientation of Player, shortcut for transform.rotation
+    /// </summary>
     public Quaternion Rotation
     {
       get => transform.rotation;
       set => transform.rotation = value;
     }
 
+    /// <summary>
+    /// Initializes PlayerBehaviour with all required dependencies
+    /// </summary>
+    /// <param name="ichiNoKataInvoker">Ichi no kata ability invoker for receiving perform event for movement</param>
     public void Initialize(IIchiNoKataInvoker ichiNoKataInvoker)
     {
       ichiNoKataInvoker.Initialize(this);

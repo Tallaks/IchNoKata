@@ -5,6 +5,9 @@ using Zenject;
 
 namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
 {
+  /// <summary>
+  /// This installer is responsible for initializing properties during initial loading
+  /// </summary>
   [AddComponentMenu("IchiNoKata/Infrastructure/Installers/Bootstrap")]
   public class BootstrapInstaller : MonoInstaller, IInitializable
   {
@@ -17,6 +20,12 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
     }
 
 #if UNITY_EDITOR
+    /// <summary>
+    /// Checks if BootstrapInstaller is added to SceneContext after scene is loaded
+    /// </summary>
+    /// <remarks>
+    /// Works only in Editor to prevent Awake() call in builds
+    /// </remarks>
     private void Awake()
     {
       Debug.Assert(GetComponent<SceneContext>().Installers.Contains(this),
@@ -24,6 +33,9 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
     }
 #endif
 
+    /// <summary>
+    /// Initializes initial properties like framerate and loads gameplay scene
+    /// </summary>
     public async void Initialize()
     {
       Debug.Log("Bootstrap initialization started");
@@ -32,6 +44,9 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
       Debug.Log("Bootstrap initialization finished");
     }
 
+    /// <summary>
+    /// Has only cached binding to itself for IInitializable interface
+    /// </summary>
     public override void InstallBindings()
     {
       Container

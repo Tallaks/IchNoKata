@@ -6,10 +6,16 @@ using Zenject;
 
 namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
 {
+  /// <summary>
+  /// Project installer for commonly used services
+  /// </summary>
   [AddComponentMenu("IchiNoKata/Infrastructure/Installers/Project"), RequireComponent(typeof(ProjectContext))]
   public class ProjectInstaller : MonoInstaller, IInitializable
   {
 #if UNITY_EDITOR
+    /// <summary>
+    /// Checks if ProjectInstaller is added to ProjectContext after scene is loaded
+    /// </summary>
     private void Awake()
     {
       Debug.Assert(GetComponent<ProjectContext>().Installers.Contains(this),
@@ -17,6 +23,9 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
     }
 #endif
 
+    /// <summary>
+    /// Initializes input service
+    /// </summary>
     public void Initialize()
     {
       Debug.Log("Project Initialization started");
@@ -24,6 +33,12 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
       Debug.Log("Project Initialization finished");
     }
 
+    /// <summary>
+    /// Binds next services:
+    /// - IAsyncSceneLoader
+    /// - IInputService
+    /// - self for IInitializable
+    /// </summary>
     public override void InstallBindings()
     {
       Debug.Log("ProjectInstaller.InstallBindings");
