@@ -8,10 +8,20 @@ using Zenject;
 
 namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
 {
+  /// <summary>
+  /// Main installer for gameplay scene
+  /// </summary>
   [AddComponentMenu("IchiNoKata/Infrastructure/Installers/Gameplay")]
   public class GameplayInstaller : MonoInstaller, IInitializable
   {
+    /// <summary>
+    /// Main camera
+    /// </summary>
     [SerializeField] private Camera _camera;
+
+    /// <summary>
+    /// Player character
+    /// </summary>
     [SerializeField] private PlayerBehaviour _player;
 
     private IInputService _inputService;
@@ -23,6 +33,9 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
     }
 
 #if UNITY_EDITOR
+    /// <summary>
+    /// Checks if GameplayInstaller is added to SceneContext after scene is loaded
+    /// </summary>
     private void Awake()
     {
       Debug.Assert(GetComponent<SceneContext>().Installers.Contains(this),
@@ -30,6 +43,9 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
     }
 #endif
 
+    /// <summary>
+    /// Checks if required properties are set and initializes gameplay, resizes camera to fit screen and initializes Player
+    /// </summary>
     public void Initialize()
     {
       Debug.Log("Gameplay initialization started");
@@ -42,6 +58,13 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
       Debug.Log("Gameplay initialization finished");
     }
 
+    /// <summary>
+    /// Binds next dependencies:
+    ///   - GameplayInstaller to itself as cached for IInitializable interface
+    ///   - Camera from serialized field as single
+    ///   - CameraResizer
+    ///   - IchiNoKataInvoker
+    /// </summary>
     public override void InstallBindings()
     {
       Container

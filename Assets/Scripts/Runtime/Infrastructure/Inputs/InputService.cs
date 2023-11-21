@@ -4,6 +4,10 @@ using UnityEngine.InputSystem;
 
 namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Inputs
 {
+  /// <inheritdoc />
+  /// <summary>
+  /// Implementation of IInputService using Unity Input System
+  /// </summary>
   public class InputService : IInputService
   {
     public event Action OnPointerPressed;
@@ -12,6 +16,9 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Inputs
     private InputControls _inputControls;
     private bool _isPressed;
 
+    /// <summary>
+    /// Initializes Unity input system and subscribes to input events
+    /// </summary>
     public void Initialize()
     {
       _inputControls = new InputControls();
@@ -30,6 +37,9 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Inputs
       return _isPressed;
     }
 
+    /// <summary>
+    /// Unsubscribes from input events and disposes Unity input system
+    /// </summary>
     public void Dispose()
     {
       _inputControls.Gameplay.PointerRelease.performed -= InvokeRelease;

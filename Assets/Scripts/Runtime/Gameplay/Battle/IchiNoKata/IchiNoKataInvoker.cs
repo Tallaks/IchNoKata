@@ -9,6 +9,10 @@ using UnityEngine;
 
 namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
 {
+  /// <inheritdoc />
+  /// <summary>
+  /// Gameplay logic for Ichi No Kata event performing. Works with input service and camera
+  /// </summary>
   public class IchiNoKataInvoker : IIchiNoKataInvoker
   {
     private const float MaxRayDistance = 30f;
@@ -32,6 +36,11 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
       _camera = camera;
     }
 
+    /// <inheritdoc />
+    /// <summary>
+    /// Adds input events and saves PlayerBehaviour reference
+    /// </summary>
+    /// <param name="player"></param>
     public void Initialize(PlayerBehaviour player)
     {
       _player = player;
@@ -40,6 +49,9 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
       _inputService.OnPointerReleased += OnPointerReleased;
     }
 
+    /// <summary>
+    /// Unsubscribes from input events
+    /// </summary>
     public void Dispose()
     {
       _inputService.OnPointerPressed -= OnPointerPressed;

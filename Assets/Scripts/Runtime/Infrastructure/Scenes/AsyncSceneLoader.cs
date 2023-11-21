@@ -3,6 +3,9 @@ using UnityEngine.SceneManagement;
 
 namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Scenes
 {
+  /// <summary>
+  /// Loader for scenes that uses Unitask async loading with SceneManager
+  /// </summary>
   public class AsyncSceneLoader : IAsyncSceneLoader
   {
     public async UniTask LoadSceneAsync(SceneNames sceneName, LoadSceneMode loadSceneMode = LoadSceneMode.Single)

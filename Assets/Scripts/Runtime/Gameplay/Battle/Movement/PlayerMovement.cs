@@ -5,22 +5,43 @@ using UnityEngine;
 
 namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Movement
 {
+  /// <summary>
+  /// Movement component for Player
+  /// </summary>
+  /// <inheritdoc />
   [AddComponentMenu("IchiNoKata/Gameplay/Battle/Player Movement")]
   public class PlayerMovement : MonoBehaviour
   {
     private readonly WaitForEndOfFrame _yieldInstruction = new();
-    [field: SerializeField] private PlayerBehaviour Player { get; set; }
-    [field: SerializeField] private float IchiNoKataMovementSpeed { get; set; }
+
+    /// <summary>
+    /// Player reference
+    /// </summary>
+    [field: SerializeField]
+    private PlayerBehaviour Player { get; set; }
+
+    /// <summary>
+    /// Speed of movement during Ichi No Kata
+    /// </summary>
+    [field: SerializeField]
+    private float IchiNoKataMovementSpeed { get; set; }
 
     private IIchiNoKataInvoker _ichiNoKataInvoker;
     private IchiNoKataArgs _ichNoKataArgs;
     private bool _isPerformingIchiNoKata;
 
+    /// <summary>
+    /// Unsubscribes from Ichi No Kata events when object is destroyed
+    /// </summary>
     private void OnDestroy()
     {
       _ichiNoKataInvoker.OnPerformed -= OnIchiNoKataInvokerPerformed;
     }
 
+    /// <summary>
+    /// Initializes PlayerMovement with required dependencies, subscribes to Ichi No Kata events, checks if Player is not null
+    /// </summary>
+    /// <param name="ichiNoKataInvoker">Ichi No Kata invoker for receiving perform event</param>
     public void Initialize(IIchiNoKataInvoker ichiNoKataInvoker)
     {
       _ichiNoKataInvoker = ichiNoKataInvoker;
