@@ -6,48 +6,43 @@ using UnityEngine;
 namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Movement
 {
   [AddComponentMenu("IchiNoKata/Gameplay/Battle/Player Movement")]
-  public class PlayerMovement : MonoBehaviour
+  public class PlayerMovement : MonoBehaviour, IIchiNoKataSubscriber
   {
-    private readonly WaitForEndOfFrame _yieldInstruction = new();
     [field: SerializeField] private PlayerBehaviour Player { get; set; }
-    [field: SerializeField] private float IchiNoKataMovementSpeed { get; set; }
+    [field: SerializeField] public float IchiNoKataMovementSpeed { get; private set; }
 
     private IIchiNoKataInvoker _ichiNoKataInvoker;
     private IchiNoKataArgs _ichNoKataArgs;
     private bool _isPerformingIchiNoKata;
 
-    private void OnDestroy()
-    {
-      _ichiNoKataInvoker.OnPerformed -= OnIchiNoKataInvokerPerformed;
-    }
-
     public void Initialize(IIchiNoKataInvoker ichiNoKataInvoker)
     {
       _ichiNoKataInvoker = ichiNoKataInvoker;
       Debug.Assert(Player != null, "Player is null!");
-      _ichiNoKataInvoker.OnStarted += OnIchiNoKataInvokerStarted;
-      _ichiNoKataInvoker.OnPerformed += OnIchiNoKataInvokerPerformed;
+      _ichiNoKataInvoker.AddSubscriber(this);
     }
 
-    private void OnIchiNoKataInvokerStarted(object sender, IchiNoKataArgs args)
+    public void OnIchiNoKataStartedCharging(IchiNoKataArgs args)
     {
       _ichNoKataArgs = args;
-      StopAllCoroutines();
-      StartCoroutine(PreparingRoutine());
     }
 
-    private IEnumerator PreparingRoutine()
+    public void OnIchiNoKataUpdated()
     {
-      while (true)
-      {
-        yield return _yieldInstruction;
-        Player.Rotation = Quaternion.LookRotation(_ichNoKataArgs.To - _ichNoKataArgs.From, Vector3.up);
-      }
+      Player.Rotation = Quaternion.LookRotation(_ichNoKataArgs.To - _ichNoKataArgs.From, Vector3.up);
     }
 
-    private void OnIchiNoKataInvokerPerformed()
+    public void OnIchiNoKataCancelled()
+    {
+    }
+
+    public void OnIchiNoKataStartedPerforming()
     {
       Move();
+    }
+
+    public void OnIchiNoKataPerformed()
+    {
     }
 
     private void Move()

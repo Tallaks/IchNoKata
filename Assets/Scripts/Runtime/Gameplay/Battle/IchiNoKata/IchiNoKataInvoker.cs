@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Movement;
@@ -14,14 +15,16 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
     private const float MaxRayDistance = 30f;
 
     private readonly int _layerMask = LayerMask.GetMask(LayerNames.Walkable);
+    private readonly List<IIchiNoKataSubscriber> _subscribers = new();
 
     private readonly IInputService _inputService;
     private readonly Camera _camera;
-    public event Action OnPerformed;
 
-    public event EventHandler<IchiNoKataArgs> OnStarted;
+    public IEnumerable<IIchiNoKataSubscriber> Subscribers => _subscribers;
     private float _chargingTime;
+
     private IchiNoKataArgs _ichiNoKataArgs;
+    private float _performingTime;
 
     private PlayerBehaviour _player;
     private float _startTime;
@@ -40,6 +43,11 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
       _inputService.OnPointerReleased += OnPointerReleased;
     }
 
+    public void AddSubscriber(IIchiNoKataSubscriber subscriber)
+    {
+      _subscribers.Add(subscriber);
+    }
+
     public void Dispose()
     {
       _inputService.OnPointerPressed -= OnPointerPressed;
@@ -55,20 +63,34 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
         if (hit.collider.TryGetComponent(out WalkableSpaceBehaviour _))
         {
           _ichiNoKataArgs = new IchiNoKataArgs(_player.Position, hit.point);
-          OnStarted?.Invoke(this, _ichiNoKataArgs);
+          InvokeStartCharging();
           while (_inputService.IsHolding())
           {
+            await UniTask.DelayFrame(1);
             Vector2 newPositionScreen = _inputService.GetPointerPosition();
             Vector3 newPositionWorld = _camera.ScreenToWorldPoint(newPositionScreen).WithY(_ichiNoKataArgs.To.y);
             _ichiNoKataArgs.SetTarget(newPositionWorld);
-            await UniTask.DelayFrame(1);
+            InvokeUpdateCharging();
           }
         }
       }
       else
       {
         Debug.Log("No hit");
+        InvokeCancelCharging();
       }
+    }
+
+    private void InvokeUpdateCharging()
+    {
+      foreach (IIchiNoKataSubscriber subscriber in _subscribers)
+        subscriber.OnIchiNoKataUpdated();
+    }
+
+    private void InvokeStartCharging()
+    {
+      foreach (IIchiNoKataSubscriber subscriber in _subscribers)
+        subscriber.OnIchiNoKataStartedCharging(_ichiNoKataArgs);
     }
 
     private void OnPointerReleased()
@@ -79,10 +101,17 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
         return;
       }
 
+      InvokeCancelCharging();
       Debug.Log("Cancel");
     }
 
-    private void PerformIchiNoKata()
+    private void InvokeCancelCharging()
+    {
+      foreach (IIchiNoKataSubscriber subscriber in _subscribers)
+        subscriber.OnIchiNoKataCancelled();
+    }
+
+    private async void PerformIchiNoKata()
     {
       Ray ray = _camera.ScreenPointToRay(_inputService.GetPointerPosition());
       if (Physics.Raycast(ray, out RaycastHit hit, MaxRayDistance, _layerMask))
@@ -90,13 +119,30 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
         if (hit.collider.TryGetComponent(out WalkableSpaceBehaviour _))
         {
           _ichiNoKataArgs.SetTarget(hit.point);
-          OnPerformed?.Invoke();
+          _performingTime = Vector3.Distance(_ichiNoKataArgs.From, _ichiNoKataArgs.To) /
+                            _player.Movement.IchiNoKataMovementSpeed;
+          InvokeStartPerforming();
+          await UniTask.Delay(new TimeSpan(0, 0, 0, 0, (int)(_performingTime * 1000)));
+          InvokePerformed();
         }
       }
       else
       {
         Debug.Log("No hit");
+        InvokeCancelCharging();
       }
+    }
+
+    private void InvokePerformed()
+    {
+      foreach (IIchiNoKataSubscriber subscriber in _subscribers)
+        subscriber.OnIchiNoKataPerformed();
+    }
+
+    private void InvokeStartPerforming()
+    {
+      foreach (IIchiNoKataSubscriber subscriber in _subscribers)
+        subscriber.OnIchiNoKataStartedPerforming();
     }
   }
 }

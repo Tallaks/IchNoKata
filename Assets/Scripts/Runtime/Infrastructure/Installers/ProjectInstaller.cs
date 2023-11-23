@@ -16,7 +16,6 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
         "Forgot to add ProjectInstaller to ProjectContext");
     }
 #endif
-
     public void Initialize()
     {
       Debug.Log("Project Initialization started");

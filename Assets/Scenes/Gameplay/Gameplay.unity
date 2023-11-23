@@ -202,6 +202,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _camera: {fileID: 318486492}
   _player: {fileID: 1009751384}
+  _ichiNoKataLineBehaviourPrefab: {fileID: 1946944617546851632, guid: b2d8282c281a595409b2864c916e0511,
+    type: 3}
 --- !u!1 &318486490
 GameObject:
   m_ObjectHideFlags: 0
