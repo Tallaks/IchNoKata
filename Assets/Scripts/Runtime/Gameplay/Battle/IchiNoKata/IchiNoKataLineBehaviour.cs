@@ -29,6 +29,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
     {
       from = from.WithY(0.1f);
       to = to.WithY(0.1f);
+      float distance = Vector3.Distance(from, to);
       Vector3 lineDirection = (to - from).normalized;
       Vector3 normal = Vector3.up;
       Vector3 perpendicular = Vector3.Cross(lineDirection, normal).normalized * _lineThickness / 2f;
@@ -48,12 +49,13 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
       };
       var normals = new Vector3[4];
       Array.Fill(normals, normal);
+
       var uvs = new Vector2[]
       {
         new(0, 0),
         new(0, 1),
-        new(1, 1),
-        new(1, 0)
+        new(distance / _lineThickness, 1),
+        new(distance / _lineThickness, 0)
       };
 
       mesh.vertices = vertices;
