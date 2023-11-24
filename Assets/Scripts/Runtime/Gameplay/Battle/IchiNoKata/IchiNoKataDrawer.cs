@@ -25,9 +25,9 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
       _lineBehaviour.Initialize(from, to, lineThickness);
     }
 
-    public void UpdateLine(Vector3 from, Vector3 to)
+    public void UpdateLine(Vector3 from, Vector3 to, float chargeRate)
     {
-      _lineBehaviour.UpdateLine(from, to);
+      _lineBehaviour.UpdateLine(from, to, chargeRate);
     }
 
     public void Clear()
@@ -41,9 +41,9 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
       DrawLine(args.From, args.To, LineThickness);
     }
 
-    public void OnIchiNoKataUpdated()
+    public void OnIchiNoKataUpdated(float chargeRate)
     {
-      UpdateLine(_args.From, _args.To);
+      UpdateLine(_args.From, _args.To, chargeRate);
     }
 
     public void OnIchiNoKataCancelled()

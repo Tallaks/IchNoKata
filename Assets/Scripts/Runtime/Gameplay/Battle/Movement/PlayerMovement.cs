@@ -27,7 +27,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Movement
       _ichNoKataArgs = args;
     }
 
-    public void OnIchiNoKataUpdated()
+    public void OnIchiNoKataUpdated(float chargeRate)
     {
       Player.Rotation = Quaternion.LookRotation(_ichNoKataArgs.To - _ichNoKataArgs.From, Vector3.up);
     }

@@ -70,7 +70,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
             Vector2 newPositionScreen = _inputService.GetPointerPosition();
             Vector3 newPositionWorld = _camera.ScreenToWorldPoint(newPositionScreen).WithY(_ichiNoKataArgs.To.y);
             _ichiNoKataArgs.SetTarget(newPositionWorld);
-            InvokeUpdateCharging();
+            InvokeUpdateCharging((Time.time - _startTime) / _chargingTime);
           }
         }
       }
@@ -81,10 +81,10 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
       }
     }
 
-    private void InvokeUpdateCharging()
+    private void InvokeUpdateCharging(float chargeRate)
     {
       foreach (IIchiNoKataSubscriber subscriber in _subscribers)
-        subscriber.OnIchiNoKataUpdated();
+        subscriber.OnIchiNoKataUpdated(chargeRate);
     }
 
     private void InvokeStartCharging()

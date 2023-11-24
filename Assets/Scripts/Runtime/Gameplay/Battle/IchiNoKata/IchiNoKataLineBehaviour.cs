@@ -7,12 +7,15 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
   [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
   public class IchiNoKataLineBehaviour : MonoBehaviour
   {
+    private static readonly int ChargeValue = Shader.PropertyToID("_ChargeValue");
     private float _lineThickness;
     private MeshFilter _meshFilter;
+    private MeshRenderer _meshRenderer;
 
     private void Awake()
     {
       _meshFilter = GetComponent<MeshFilter>();
+      _meshRenderer = GetComponent<MeshRenderer>();
     }
 
     public void Initialize(Vector3 from, Vector3 to, float lineThickness)
@@ -22,10 +25,10 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
       Mesh mesh = _meshFilter.mesh;
       mesh.Clear();
 
-      UpdateLine(from, to);
+      UpdateLine(from, to, 0);
     }
 
-    public void UpdateLine(Vector3 from, Vector3 to)
+    public void UpdateLine(Vector3 from, Vector3 to, float chargeRate)
     {
       from = from.WithY(0.1f);
       to = to.WithY(0.1f);
@@ -58,12 +61,22 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
         new(distance / _lineThickness, 0)
       };
 
+      var uvs2 = new Vector2[]
+      {
+        new(0, 0),
+        new(0, 1),
+        new(1, 1),
+        new(1, 0)
+      };
+
       mesh.vertices = vertices;
       mesh.triangles = triangles;
       mesh.normals = normals;
       mesh.uv = uvs;
+      mesh.uv2 = uvs2;
 
       _meshFilter.mesh = mesh;
+      _meshRenderer.material.SetFloat(ChargeValue, chargeRate);
     }
   }
 }
