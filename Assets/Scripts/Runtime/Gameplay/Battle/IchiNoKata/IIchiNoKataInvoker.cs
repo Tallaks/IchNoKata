@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters;
 
 namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
@@ -9,17 +10,20 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
   public interface IIchiNoKataInvoker : IDisposable
   {
     /// <summary>
-    /// Event that is invoked when Ichi No Kata is successfully performed
+    /// Subscriber collection
     /// </summary>
-    event Action OnPerformed;
-    /// <summary>
-    /// Event that is invoked when Ichi No Kata is started performing
-    /// </summary>
-    event EventHandler<IchiNoKataArgs> OnStarted;
+    IEnumerable<IIchiNoKataSubscriber> Subscribers { get; }
+
     /// <summary>
     /// Initializes Ichi No Kata invoker with PlayerBehaviour reference
     /// </summary>
     /// <param name="playerBehaviour">Player</param>
     void Initialize(PlayerBehaviour playerBehaviour);
+
+    /// <summary>
+    /// Adds subscriber to the subscriber collection
+    /// </summary>
+    /// <param name="subscriber">New subscriber</param>
+    void AddSubscriber(IIchiNoKataSubscriber subscriber);
   }
 }

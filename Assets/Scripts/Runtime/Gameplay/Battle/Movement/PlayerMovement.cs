@@ -8,31 +8,30 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Movement
   /// <summary>
   /// Movement component for Player
   /// </summary>
-  /// <inheritdoc />
   [AddComponentMenu("IchiNoKata/Gameplay/Battle/Player Movement")]
-  public class PlayerMovement : MonoBehaviour
+  public class PlayerMovement : MonoBehaviour, IIchiNoKataSubscriber
   {
-    private readonly WaitForEndOfFrame _yieldInstruction = new();
     /// <summary>
     /// Player reference
     /// </summary>
-    [field: SerializeField] private PlayerBehaviour Player { get; set; }
+    [field: SerializeField]
+    private PlayerBehaviour Player { get; set; }
+
+    /// <summary>
+    /// Animation component for Player
+    /// </summary>
+    [field: SerializeField]
+    private PlayerAnimations PlayerAnimations { get; set; }
+
     /// <summary>
     /// Speed of movement during Ichi No Kata
     /// </summary>
-    [field: SerializeField] private float IchiNoKataMovementSpeed { get; set; }
+    [field: SerializeField]
+    public float IchiNoKataMovementSpeed { get; private set; }
 
     private IIchiNoKataInvoker _ichiNoKataInvoker;
     private IchiNoKataArgs _ichNoKataArgs;
     private bool _isPerformingIchiNoKata;
-
-    /// <summary>
-    /// Unsubscribes from Ichi No Kata events when object is destroyed
-    /// </summary>
-    private void OnDestroy()
-    {
-      _ichiNoKataInvoker.OnPerformed -= OnIchiNoKataInvokerPerformed;
-    }
 
     /// <summary>
     /// Initializes PlayerMovement with required dependencies, subscribes to Ichi No Kata events, checks if Player is not null
@@ -42,29 +41,51 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Movement
     {
       _ichiNoKataInvoker = ichiNoKataInvoker;
       Debug.Assert(Player != null, "Player is null!");
-      _ichiNoKataInvoker.OnStarted += OnIchiNoKataInvokerStarted;
-      _ichiNoKataInvoker.OnPerformed += OnIchiNoKataInvokerPerformed;
+      _ichiNoKataInvoker.AddSubscriber(this);
     }
 
-    private void OnIchiNoKataInvokerStarted(object sender, IchiNoKataArgs args)
+    /// <summary>
+    /// Calls charging animation and saves Ichi No Kata args
+    /// </summary>
+    /// <inheritdoc cref="IIchiNoKataSubscriber"/>
+    public void OnIchiNoKataStartedCharging(IchiNoKataArgs args)
     {
       _ichNoKataArgs = args;
-      StopAllCoroutines();
-      StartCoroutine(PreparingRoutine());
+      PlayerAnimations.StartCharging();
     }
 
-    private IEnumerator PreparingRoutine()
+    /// <summary>
+    /// Rotates Player to look at Ich No Kata destination
+    /// </summary>
+    /// <inheritdoc cref="IIchiNoKataSubscriber"/>
+    public void OnIchiNoKataUpdated(float chargeRate)
     {
-      while (true)
-      {
-        yield return _yieldInstruction;
-        Player.Rotation = Quaternion.LookRotation(_ichNoKataArgs.To - _ichNoKataArgs.From, Vector3.up);
-      }
+      Player.Rotation = Quaternion.LookRotation(_ichNoKataArgs.To - _ichNoKataArgs.From, Vector3.up);
     }
 
-    private void OnIchiNoKataInvokerPerformed()
+    /// <summary>
+    /// Calls cancel animation
+    /// </summary>
+    public void OnIchiNoKataCancelled()
+    {
+      PlayerAnimations.CancelCharging();
+    }
+
+    /// <summary>
+    /// Calls attack animation and starts movement coroutine
+    /// </summary>
+    public void OnIchiNoKataStartedPerforming()
     {
       Move();
+      PlayerAnimations.StartAttack();
+    }
+
+    /// <summary>
+    /// Calls end attack animation
+    /// </summary>
+    public void OnIchiNoKataPerformed()
+    {
+      PlayerAnimations.EndAttack();
     }
 
     private void Move()

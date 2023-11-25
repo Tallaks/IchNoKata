@@ -28,5 +28,14 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Extensions
     {
       return new Vector3(vector.x, y, vector.z);
     }
+
+    /// <summary>
+    /// Extension method for Vector3 to get XZ projection of target vector
+    /// </summary>
+    /// <param name="vector">Target vector</param>
+    public static Vector3 OnlyXZ(this Vector3 vector)
+    {
+      return new Vector3(vector.x, 0, vector.z);
+    }
   }
 }

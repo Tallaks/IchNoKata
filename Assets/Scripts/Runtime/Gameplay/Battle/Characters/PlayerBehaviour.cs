@@ -14,11 +14,24 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
     /// <summary>
     /// Movement component
     /// </summary>
-    [field: SerializeField] public PlayerMovement Movement { get; private set; }
+    [field: SerializeField]
+    public PlayerMovement Movement { get; private set; }
+
     /// <summary>
     /// Time for charging Ichi No Kata ability in seconds
     /// </summary>
-    [field: SerializeField] public float ChargingTime { get; private set; }
+    [field: SerializeField]
+    public float ChargingTime { get; private set; }
+
+    /// <summary>
+    /// Reference to Player's physics collider to calculate size
+    /// </summary>
+    [field: SerializeField] private Collider _physicsCollider;
+
+    /// <summary>
+    /// Size of Player, shortcut for _physicsCollider.bounds.extents.z, used for calculating position of Ichi No Kata destination when obstacle is met during charging
+    /// </summary>
+    public float Size => _physicsCollider.bounds.extents.z;
 
     /// <summary>
     /// Position of Player, shortcut for transform.position
@@ -46,6 +59,8 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
     {
       ichiNoKataInvoker.Initialize(this);
       Debug.Assert(Movement != null, "Movement is null!");
+      Debug.Assert(ChargingTime > 0, "Charging time is not set!");
+      Debug.Assert(_physicsCollider != null, "Physics collider is not set!");
       Movement.Initialize(ichiNoKataInvoker);
     }
   }

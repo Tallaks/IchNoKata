@@ -1,7 +1,8 @@
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters;
+using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Environment;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata;
-using Tallaks.IchiNoKata.Runtime.Infrastructure.Inputs;
 using Tallaks.IchiNoKata.Runtime.Infrastructure.Screens;
 using UnityEngine;
 using Zenject;
@@ -18,18 +19,16 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
     /// Main camera
     /// </summary>
     [SerializeField] private Camera _camera;
+
     /// <summary>
     /// Player character
     /// </summary>
     [SerializeField] private PlayerBehaviour _player;
 
-    private IInputService _inputService;
-
-    [Inject]
-    private void Construct(IInputService inputService)
-    {
-      _inputService = inputService;
-    }
+    /// <summary>
+    /// Ichi No Kata line behaviour prefab to be used by IchiNoKataDrawer
+    /// </summary>
+    [Header("Prefabs"), SerializeField] private IchiNoKataLineBehaviour _ichiNoKataLineBehaviourPrefab;
 
 #if UNITY_EDITOR
     /// <summary>
@@ -43,26 +42,63 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
 #endif
 
     /// <summary>
-    /// Checks if required properties are set and initializes gameplay, resizes camera to fit screen and initializes Player
+    /// Initialization of Gameplay scene. Includes:
+    /// <list type="bullet">
+    ///   <item>Checking if required properties are set</item>
+    ///   <item>Resizes camera by phone aspect</item>
+    ///   <item>Initializes Player</item>
+    ///   <item>Initializes IchiNoKataDrawer with line behaviour prefab, taken from _ichiNoKataLineBehaviourPrefab field</item>
+    ///   <item>Configures Ichi no kata settings</item>
+    /// </list>
     /// </summary>
-    public void Initialize()
+    /// <remarks>Method is async because of async load of Icho no Kata config from resources and then unloading it</remarks>
+    public async void Initialize()
     {
       Debug.Log("Gameplay initialization started");
       Debug.Assert(_camera != null, "Camera is not set");
       Debug.Assert(_player != null, "Player is not set");
+
+      var config = await Resources.LoadAsync<IchiNoKataConfig>("Configs/IchiNoKataConfig") as IchiNoKataConfig;
+      IchiNoKataVisualSettings.Initialize(config);
       Container.Resolve<ICameraResizer>().Initialize();
       Container.Resolve<ICameraResizer>().Resize();
+      Container.Resolve<IIchiNoKataDrawer>().Initialize(_ichiNoKataLineBehaviourPrefab);
 
       _player.Initialize(Container.Resolve<IIchiNoKataInvoker>());
+#if !UNITY_EDITOR
+      await Resources.UnloadUnusedAssets();
+#endif
       Debug.Log("Gameplay initialization finished");
     }
 
     /// <summary>
     /// Binds next dependencies:
-    ///   - GameplayInstaller to itself as cached for IInitializable interface
-    ///   - Camera from serialized field as single
-    ///   - CameraResizer
-    ///   - IchiNoKataInvoker
+    /// <list type="definition">
+    ///   <item>
+    ///     <term>GameplayInstaller</term>
+    ///     <description>Binds to itself as cached for IInitializable interface</description>
+    ///   </item>
+    ///   <item>
+    ///     <term>ICameraResizer</term>
+    ///     <description>Binds to CameraResizer as cached for ICameraResizer interface</description>
+    ///   </item>
+    ///   <item>
+    ///     <term>IIchiNoKataInvoker</term>
+    ///     <description>Binds to IchiNoKataInvoker as single for IIchiNoKataInvoker interface</description>
+    ///   </item>
+    ///   <item>
+    ///     <term>Camera</term>
+    ///     <description>Binds to _camera field as single for Camera type</description>
+    ///   </item>
+    ///   <item>
+    ///     <term>IIchiNoKataDrawer</term>
+    ///     <description>Binds to IchiNoKataDrawer as single for IIchiNoKataDrawer interface</description>
+    ///   </item>
+    ///   <item>
+    ///     <term>IObstacleChecker</term>
+    ///     <description>Binds to ObstacleChecker as single for IObstacleChecker interface</description>
+    ///   </item>
+    /// </list>
     /// </summary>
     public override void InstallBindings()
     {
@@ -86,6 +122,18 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
       Container
         .Bind<Camera>()
         .FromInstance(_camera)
+        .AsSingle();
+
+      Container
+        .Bind<IIchiNoKataDrawer>()
+        .To<IchiNoKataDrawer>()
+        .FromNew()
+        .AsSingle();
+
+      Container
+        .Bind<IObstacleChecker>()
+        .To<ObstacleChecker>()
+        .FromNew()
         .AsSingle();
     }
   }
