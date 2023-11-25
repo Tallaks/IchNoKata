@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters;
+using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Environment;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Movement;
 using Tallaks.IchiNoKata.Runtime.Infrastructure.Extensions;
 using Tallaks.IchiNoKata.Runtime.Infrastructure.Inputs;
@@ -19,6 +20,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
 
     private readonly IInputService _inputService;
     private readonly Camera _camera;
+    private readonly IObstacleChecker _obstacleChecker;
 
     public IEnumerable<IIchiNoKataSubscriber> Subscribers => _subscribers;
     private float _chargingTime;
@@ -29,10 +31,11 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
     private PlayerBehaviour _player;
     private float _startTime;
 
-    public IchiNoKataInvoker(IInputService inputService, Camera camera)
+    public IchiNoKataInvoker(IInputService inputService, Camera camera, IObstacleChecker obstacleChecker)
     {
       _inputService = inputService;
       _camera = camera;
+      _obstacleChecker = obstacleChecker;
     }
 
     public void Initialize(PlayerBehaviour player)
@@ -68,7 +71,9 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
           {
             await UniTask.DelayFrame(1);
             Vector2 newPositionScreen = _inputService.GetPointerPosition();
-            Vector3 newPositionWorld = _camera.ScreenToWorldPoint(newPositionScreen).WithY(_ichiNoKataArgs.To.y);
+            Vector3 desiredPositionWorld = _camera.ScreenToWorldPoint(newPositionScreen).WithY(_ichiNoKataArgs.To.y);
+            Vector3 newPositionWorld =
+              _obstacleChecker.GetPointCheckedByObstacle(_ichiNoKataArgs.From, desiredPositionWorld);
             _ichiNoKataArgs.SetTarget(newPositionWorld);
             InvokeUpdateCharging((Time.time - _startTime) / _chargingTime);
           }
@@ -118,7 +123,10 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
       {
         if (hit.collider.TryGetComponent(out WalkableSpaceBehaviour _))
         {
-          _ichiNoKataArgs.SetTarget(hit.point);
+          Vector3 desiredPositionWorld = hit.point;
+          Vector3 newPositionWorld =
+            _obstacleChecker.GetPointCheckedByObstacle(_ichiNoKataArgs.From, desiredPositionWorld);
+          _ichiNoKataArgs.SetTarget(newPositionWorld);
           _performingTime = Vector3.Distance(_ichiNoKataArgs.From, _ichiNoKataArgs.To) /
                             _player.Movement.IchiNoKataMovementSpeed;
           InvokeStartPerforming();
