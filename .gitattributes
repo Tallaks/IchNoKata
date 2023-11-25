@@ -51,3 +51,4 @@
 *.dawg filter=lfs diff=lfs merge=lfs -text
 *.intdawg filter=lfs diff=lfs merge=lfs -text
 *.pkg filter=lfs diff=lfs merge=lfs -text
+*.anim filter=lfs diff=lfs merge=lfs -text

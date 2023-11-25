@@ -9,6 +9,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Movement
   public class PlayerMovement : MonoBehaviour, IIchiNoKataSubscriber
   {
     [field: SerializeField] private PlayerBehaviour Player { get; set; }
+    [field: SerializeField] private PlayerAnimations PlayerAnimations { get; set; }
     [field: SerializeField] public float IchiNoKataMovementSpeed { get; private set; }
 
     private IIchiNoKataInvoker _ichiNoKataInvoker;
@@ -25,6 +26,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Movement
     public void OnIchiNoKataStartedCharging(IchiNoKataArgs args)
     {
       _ichNoKataArgs = args;
+      PlayerAnimations.StartCharging();
     }
 
     public void OnIchiNoKataUpdated(float chargeRate)
@@ -34,15 +36,18 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Movement
 
     public void OnIchiNoKataCancelled()
     {
+      PlayerAnimations.CancelCharging();
     }
 
     public void OnIchiNoKataStartedPerforming()
     {
       Move();
+      PlayerAnimations.StartAttack();
     }
 
     public void OnIchiNoKataPerformed()
     {
+      PlayerAnimations.EndAttack();
     }
 
     private void Move()
