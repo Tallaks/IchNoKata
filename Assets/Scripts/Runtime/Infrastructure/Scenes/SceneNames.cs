@@ -4,6 +4,7 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Scenes
   {
     None = 0,
     Bootstrap = 1,
-    Gameplay = 2
+    Gameplay = 2,
+    MainMenu = 3
   }
 }
