@@ -4,6 +4,6 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Environment
 {
   public interface IObstacleChecker
   {
-    Vector3 GetPointCheckedByObstacle(Vector3 from, Vector3 to);
+    Vector3 GetPointCheckedByObstacle(Vector3 from, Vector3 to, float playerSize);
   }
 }

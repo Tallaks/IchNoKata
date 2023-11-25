@@ -9,6 +9,8 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
   {
     [field: SerializeField] public PlayerMovement Movement { get; private set; }
     [field: SerializeField] public float ChargingTime { get; private set; }
+    [field: SerializeField] private Collider _physicsCollider;
+    public float Size => _physicsCollider.bounds.extents.z;
 
     public Vector3 Position
     {
@@ -26,6 +28,8 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
     {
       ichiNoKataInvoker.Initialize(this);
       Debug.Assert(Movement != null, "Movement is null!");
+      Debug.Assert(ChargingTime > 0, "Charging time is not set!");
+      Debug.Assert(_physicsCollider != null, "Physics collider is not set!");
       Movement.Initialize(ichiNoKataInvoker);
     }
   }

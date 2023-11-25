@@ -8,19 +8,29 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
   public class IchiNoKataLineBehaviour : MonoBehaviour
   {
     private static readonly int ChargeValue = Shader.PropertyToID("_ChargeValue");
+    private static readonly int FilledColor = Shader.PropertyToID("_FilledColor");
+    private static readonly int UnfilledColor = Shader.PropertyToID("_UnfilledColor");
+    [SerializeField] private IchiNoKataDestinationRenderer _lineRenderer;
+
     private float _lineThickness;
     private MeshFilter _meshFilter;
     private MeshRenderer _meshRenderer;
 
     private void Awake()
     {
+      Debug.Assert(_lineRenderer != null, nameof(_lineRenderer) + " != null");
       _meshFilter = GetComponent<MeshFilter>();
       _meshRenderer = GetComponent<MeshRenderer>();
+      _meshRenderer.material.SetColor(FilledColor, IchiNoKataVisualSettings.FilledColor);
+      _meshRenderer.material.SetColor(UnfilledColor, IchiNoKataVisualSettings.UnfilledColor);
+      Debug.Assert(_meshFilter != null, nameof(_meshFilter) + " != null");
+      Debug.Assert(_meshRenderer != null, nameof(_meshRenderer) + " != null");
     }
 
     public void Initialize(Vector3 from, Vector3 to, float lineThickness)
     {
       _lineThickness = lineThickness;
+      _lineRenderer.Initialize(_lineThickness);
       _meshFilter.mesh ??= new Mesh();
       Mesh mesh = _meshFilter.mesh;
       mesh.Clear();
@@ -77,6 +87,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
 
       _meshFilter.mesh = mesh;
       _meshRenderer.material.SetFloat(ChargeValue, chargeRate);
+      _lineRenderer.UpdateLine(from, to, chargeRate);
     }
   }
 }

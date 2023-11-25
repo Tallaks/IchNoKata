@@ -1,4 +1,5 @@
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Environment;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata;
@@ -33,16 +34,22 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
     }
 #endif
 
-    public void Initialize()
+    public async void Initialize()
     {
       Debug.Log("Gameplay initialization started");
       Debug.Assert(_camera != null, "Camera is not set");
       Debug.Assert(_player != null, "Player is not set");
+
+      var config = await Resources.LoadAsync<IchiNoKataConfig>("Configs/IchiNoKataConfig") as IchiNoKataConfig;
+      IchiNoKataVisualSettings.Initialize(config);
       Container.Resolve<ICameraResizer>().Initialize();
       Container.Resolve<ICameraResizer>().Resize();
       Container.Resolve<IIchiNoKataDrawer>().Initialize(_ichiNoKataLineBehaviourPrefab);
 
       _player.Initialize(Container.Resolve<IIchiNoKataInvoker>());
+#if !UNITY_EDITOR
+      Resources.UnloadUnusedAssets();
+#endif
       Debug.Log("Gameplay initialization finished");
     }
 

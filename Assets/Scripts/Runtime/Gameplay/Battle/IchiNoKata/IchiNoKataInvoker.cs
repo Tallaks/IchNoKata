@@ -73,7 +73,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
             Vector2 newPositionScreen = _inputService.GetPointerPosition();
             Vector3 desiredPositionWorld = _camera.ScreenToWorldPoint(newPositionScreen).WithY(_ichiNoKataArgs.To.y);
             Vector3 newPositionWorld =
-              _obstacleChecker.GetPointCheckedByObstacle(_ichiNoKataArgs.From, desiredPositionWorld);
+              _obstacleChecker.GetPointCheckedByObstacle(_ichiNoKataArgs.From, desiredPositionWorld, _player.Size);
             _ichiNoKataArgs.SetTarget(newPositionWorld);
             InvokeUpdateCharging((Time.time - _startTime) / _chargingTime);
           }
@@ -125,7 +125,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
         {
           Vector3 desiredPositionWorld = hit.point;
           Vector3 newPositionWorld =
-            _obstacleChecker.GetPointCheckedByObstacle(_ichiNoKataArgs.From, desiredPositionWorld);
+            _obstacleChecker.GetPointCheckedByObstacle(_ichiNoKataArgs.From, desiredPositionWorld, _player.Size);
           _ichiNoKataArgs.SetTarget(newPositionWorld);
           _performingTime = Vector3.Distance(_ichiNoKataArgs.From, _ichiNoKataArgs.To) /
                             _player.Movement.IchiNoKataMovementSpeed;
