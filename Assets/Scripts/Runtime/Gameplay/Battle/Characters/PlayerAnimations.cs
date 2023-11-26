@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
 {
-  [AddComponentMenu("IchiNoKata/Gameplay/Player Animations")]
+  [AddComponentMenu("IchiNoKata/Gameplay/Battle/Animations/Player Animations")]
   public class PlayerAnimations : MonoBehaviour
   {
     private static readonly int StartChargingAnim = Animator.StringToHash("StartCharging");

@@ -11,6 +11,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
     {
       FilledColor = config.FilledColor;
       UnfilledColor = config.UnfilledColor;
+      config = null;
     }
   }
 }

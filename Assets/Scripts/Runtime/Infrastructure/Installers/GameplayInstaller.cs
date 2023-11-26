@@ -3,7 +3,6 @@ using Cysharp.Threading.Tasks;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Environment;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata;
-using Tallaks.IchiNoKata.Runtime.Infrastructure.Inputs;
 using Tallaks.IchiNoKata.Runtime.Infrastructure.Screens;
 using UnityEngine;
 using Zenject;
@@ -17,14 +16,6 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
     [SerializeField] private PlayerBehaviour _player;
 
     [Header("Prefabs"), SerializeField] private IchiNoKataLineBehaviour _ichiNoKataLineBehaviourPrefab;
-
-    private IInputService _inputService;
-
-    [Inject]
-    private void Construct(IInputService inputService)
-    {
-      _inputService = inputService;
-    }
 
 #if UNITY_EDITOR
     private void Awake()
@@ -47,9 +38,7 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
       Container.Resolve<IIchiNoKataDrawer>().Initialize(_ichiNoKataLineBehaviourPrefab);
 
       _player.Initialize(Container.Resolve<IIchiNoKataInvoker>());
-#if !UNITY_EDITOR
-      Resources.UnloadUnusedAssets();
-#endif
+      await Resources.UnloadUnusedAssets();
       Debug.Log("Gameplay initialization finished");
     }
 
