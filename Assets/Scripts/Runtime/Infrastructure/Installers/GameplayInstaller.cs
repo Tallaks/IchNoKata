@@ -1,6 +1,7 @@
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters;
+using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters.Enemies;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Environment;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata;
 using Tallaks.IchiNoKata.Runtime.Infrastructure.Screens;
@@ -75,6 +76,12 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
       Container
         .Bind<IObstacleChecker>()
         .To<ObstacleChecker>()
+        .FromNew()
+        .AsSingle();
+
+      Container
+        .Bind<IEnemyRegistry>()
+        .To<EnemyRegistry>()
         .FromNew()
         .AsSingle();
     }
