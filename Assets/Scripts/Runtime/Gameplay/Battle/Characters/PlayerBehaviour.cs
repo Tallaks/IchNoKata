@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
 {
-  [AddComponentMenu("IchiNoKata/Gameplay/Battle/Player")]
+  [AddComponentMenu("IchiNoKata/Gameplay/Battle/Characters/Player")]
   public class PlayerBehaviour : MonoBehaviour
   {
     [field: SerializeField] public PlayerMovement Movement { get; private set; }
