@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
 {
-  [AddComponentMenu("IchiNoKata/Gameplay/IchiNoKata Line"), RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
+  [AddComponentMenu("IchiNoKata/Gameplay/IchiNoKata Line")]
+  [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
   public class IchiNoKataLineBehaviour : MonoBehaviour
   {
     private static readonly int ChargeValue = Shader.PropertyToID("_ChargeValue");

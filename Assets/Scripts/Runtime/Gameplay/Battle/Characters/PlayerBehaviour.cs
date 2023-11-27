@@ -6,21 +6,26 @@ using UnityEngine;
 namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
 {
   [AddComponentMenu("IchiNoKata/Gameplay/Battle/Characters/Player")]
-  public class PlayerBehaviour : MonoBehaviour, IDamagable
+  public class PlayerBehaviour : MonoBehaviour, IDamagable, IDamageMaker
   {
     [field: SerializeField] public PlayerMovement Movement { get; private set; }
     [field: SerializeField] public float ChargingTime { get; private set; }
     [field: SerializeField] private Collider _physicsCollider;
 
-    [field: Header("Health and regeneration"), SerializeField]
-    
+    [field: Header("Health and regeneration")]
+    [field: SerializeField]
     public int MaxHealth { get; private set; }
 
     [field: SerializeField] public int RegenerationPerSec { get; private set; }
-    public Health Health { get; private set; }
 
+    [field: Header("Damage")]
+    [field: SerializeField]
+    public int BaseDamage { get; private set; }
+
+    public Health Health { get; private set; }
     public Regeneration Regeneration { get; private set; }
     public BattleSide Side => BattleSide.Player;
+    public DamageApplierBase DamageApplier { get; private set; }
 
     public float Size => _physicsCollider.bounds.extents.z;
 
@@ -41,6 +46,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
       ichiNoKataInvoker.Initialize(this);
       Health = new Health(MaxHealth, Die);
       Regeneration = new Regeneration(Health, RegenerationPerSec);
+      DamageApplier = new ValueDamageApplier(BaseDamage);
       Debug.Assert(MaxHealth > 0, "Max health is not set!");
       Debug.Assert(Movement != null, "Movement is null!");
       Debug.Assert(ChargingTime > 0, "Charging time is not set!");
@@ -57,11 +63,6 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
     public void Die()
     {
       Debug.Log("Player died!");
-    }
-
-    public void Regenerate()
-    {
-      Health.Current = Mathf.Clamp(Health.Current + RegenerationPerSec, 0, MaxHealth);
     }
   }
 }

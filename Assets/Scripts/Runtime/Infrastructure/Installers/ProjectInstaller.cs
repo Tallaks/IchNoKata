@@ -6,7 +6,8 @@ using Zenject;
 
 namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
 {
-  [AddComponentMenu("IchiNoKata/Infrastructure/Installers/Project"), RequireComponent(typeof(ProjectContext))]
+  [AddComponentMenu("IchiNoKata/Infrastructure/Installers/Project")]
+  [RequireComponent(typeof(ProjectContext))]
   public class ProjectInstaller : MonoInstaller, IInitializable
   {
 #if UNITY_EDITOR

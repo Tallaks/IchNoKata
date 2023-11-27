@@ -16,7 +16,8 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
     [SerializeField] private Camera _camera;
     [SerializeField] private PlayerBehaviour _player;
 
-    [Header("Prefabs"), SerializeField] private IchiNoKataLineBehaviour _ichiNoKataLineBehaviourPrefab;
+    [Header("Prefabs")]
+    [SerializeField] private IchiNoKataLineBehaviour _ichiNoKataLineBehaviourPrefab;
 
 #if UNITY_EDITOR
     private void Awake()
