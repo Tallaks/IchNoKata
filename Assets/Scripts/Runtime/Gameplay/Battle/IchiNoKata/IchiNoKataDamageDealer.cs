@@ -63,36 +63,35 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
       Vector3 rightOrigin = fromPoint - normal * _args.Width / 2f;
 
       int centerHitCount = Physics.RaycastNonAlloc(fromPoint, direction, _centralHits, ichiNiKataDistance, _layerMask);
-      int leftHitCount = Physics.RaycastNonAlloc(leftOrigin, direction, _leftHits, ichiNiKataDistance, _layerMask);
-      int rightHitCount = Physics.RaycastNonAlloc(rightOrigin, direction, _rightHits, ichiNiKataDistance, _layerMask);
-
-      if (centerHitCount == 0 && leftHitCount == 0 && rightHitCount == 0)
-        return;
-
-      var damagedEnemies = new HashSet<IDamageable>();
+      HashSet<IDamageable> damagedEnemies = null;
       for (var i = 0; i < centerHitCount; i++)
       {
         if (!_centralHits[i].collider.attachedRigidbody.TryGetComponent(out IDamageable damageable) ||
             damageable.Side != BattleSide.Enemy)
           continue;
+        damagedEnemies ??= new HashSet<IDamageable>();
         damagedEnemies.Add(damageable);
         damageable.TakeDamage(_args.Damage);
       }
 
+      int leftHitCount = Physics.RaycastNonAlloc(leftOrigin, direction, _leftHits, ichiNiKataDistance, _layerMask);
       for (var i = 0; i < leftHitCount; i++)
       {
         if (!_leftHits[i].collider.attachedRigidbody.TryGetComponent(out IDamageable damageable) ||
             damageable.Side != BattleSide.Enemy)
           continue;
+        damagedEnemies ??= new HashSet<IDamageable>();
         if (damagedEnemies.Add(damageable))
           damageable.TakeDamage(_args.Damage);
       }
 
+      int rightHitCount = Physics.RaycastNonAlloc(rightOrigin, direction, _rightHits, ichiNiKataDistance, _layerMask);
       for (var i = 0; i < rightHitCount; i++)
       {
         if (!_rightHits[i].collider.attachedRigidbody.TryGetComponent(out IDamageable damageable) ||
             damageable.Side != BattleSide.Enemy)
           continue;
+        damagedEnemies ??= new HashSet<IDamageable>();
         if (damagedEnemies.Add(damageable))
           damageable.TakeDamage(_args.Damage);
       }

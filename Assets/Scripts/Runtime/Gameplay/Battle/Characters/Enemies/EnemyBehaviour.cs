@@ -9,6 +9,8 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters.Enemies
   public class EnemyBehaviour : MonoBehaviour, IDamageable, IDamageMaker
   {
     [field: SerializeField] public EnemyMovementBase Movement { get; private set; }
+    [field: SerializeField] public EnemyAnimations Animations { get; private set; }
+    [field: SerializeField] public Collider PhysicsCollider { get; private set; }
     [field: SerializeField] public int MaxHealth { get; private set; }
     [field: SerializeField] public int RegenerationPerSec { get; private set; }
     [field: SerializeField] public int BaseDamage { get; private set; }
@@ -45,12 +47,15 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters.Enemies
     public void TakeDamage(int damage)
     {
       Health.Current -= damage;
-      Debug.Log($"Enemy took {damage} damage! Current health: {Health.Current}");
+      if (Health.Current > 0)
+        Animations.PlayHit();
     }
 
     public void Die()
     {
       Debug.Log("Enemy died!");
+      Animations.PlayDead();
+      PhysicsCollider.enabled = false;
     }
   }
 }
