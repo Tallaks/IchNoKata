@@ -22,6 +22,8 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
     [field: SerializeField]
     public int BaseDamage { get; private set; }
 
+    [field: SerializeField] public float IchiNoKataWidth { get; private set; }
+
     public Health Health { get; private set; }
     public Regeneration Regeneration { get; private set; }
     public BattleSide Side => BattleSide.Player;
@@ -43,13 +45,14 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
 
     public void Initialize(IIchiNoKataInvoker ichiNoKataInvoker)
     {
-      ichiNoKataInvoker.Initialize(this);
       Health = new Health(MaxHealth, Die);
       Regeneration = new Regeneration(Health, RegenerationPerSec);
       DamageApplier = new ValueDamageApplier(BaseDamage);
       Debug.Assert(MaxHealth > 0, "Max health is not set!");
       Debug.Assert(Movement != null, "Movement is null!");
       Debug.Assert(ChargingTime > 0, "Charging time is not set!");
+      Debug.Assert(BaseDamage > 0, "Base damage is not set!");
+      Debug.Assert(IchiNoKataWidth > 0, "IchiNoKata width is not set!");
       Debug.Assert(_physicsCollider != null, "Physics collider is not set!");
       Movement.Initialize(ichiNoKataInvoker);
     }

@@ -45,6 +45,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters.Enemies
     public void TakeDamage(int damage)
     {
       Health.Current -= damage;
+      Debug.Log($"Enemy took {damage} damage! Current health: {Health.Current}");
     }
 
     public void Die()

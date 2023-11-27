@@ -4,7 +4,6 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
 {
   public class IchiNoKataDrawer : IIchiNoKataDrawer, IIchiNoKataSubscriber
   {
-    private const float LineThickness = 1f;
     private readonly IIchiNoKataInvoker _ichiNoKataInvoker;
     private IchiNoKataArgs _args;
     private IchiNoKataLineBehaviour _lineBehaviour;
@@ -38,7 +37,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
     public void OnIchiNoKataStartedCharging(IchiNoKataArgs args)
     {
       _args = args;
-      DrawLine(args.From, args.To, LineThickness);
+      DrawLine(args.From, args.To, args.Width);
     }
 
     public void OnIchiNoKataUpdated(float chargeRate)

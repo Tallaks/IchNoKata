@@ -37,9 +37,12 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
       IchiNoKataVisualSettings.Initialize(config);
       Container.Resolve<ICameraResizer>().Initialize();
       Container.Resolve<ICameraResizer>().Resize();
+      Container.Resolve<IIchiNoKataDamageDealer>().Initialize();
       Container.Resolve<IIchiNoKataDrawer>().Initialize(_ichiNoKataLineBehaviourPrefab);
 
-      _player.Initialize(Container.Resolve<IIchiNoKataInvoker>());
+      var ichiNoKataInvoker = Container.Resolve<IIchiNoKataInvoker>();
+      ichiNoKataInvoker.Initialize(_player);
+      _player.Initialize(ichiNoKataInvoker);
       await Resources.UnloadUnusedAssets();
       Debug.Log("Gameplay initialization finished");
     }
@@ -83,6 +86,12 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
       Container
         .Bind<IEnemyRegistry>()
         .To<EnemyRegistry>()
+        .FromNew()
+        .AsSingle();
+
+      Container
+        .Bind<IIchiNoKataDamageDealer>()
+        .To<IchiNoKataDamageDealer>()
         .FromNew()
         .AsSingle();
     }
