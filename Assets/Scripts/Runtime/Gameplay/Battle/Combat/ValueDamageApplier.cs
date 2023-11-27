@@ -6,9 +6,9 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Combat
     {
     }
 
-    public override void ApplyDamage(IDamagable damagable)
+    public override void ApplyDamage(IDamageable damageable)
     {
-      damagable.TakeDamage(BaseDamage);
+      damageable.TakeDamage(BaseDamage);
     }
   }
 }

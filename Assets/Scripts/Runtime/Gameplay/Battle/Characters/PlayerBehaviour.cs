@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
 {
   [AddComponentMenu("IchiNoKata/Gameplay/Battle/Characters/Player")]
-  public class PlayerBehaviour : MonoBehaviour, IDamagable, IDamageMaker
+  public class PlayerBehaviour : MonoBehaviour, IDamageable, IDamageMaker
   {
     [field: SerializeField] public PlayerMovement Movement { get; private set; }
     [field: SerializeField] public float ChargingTime { get; private set; }

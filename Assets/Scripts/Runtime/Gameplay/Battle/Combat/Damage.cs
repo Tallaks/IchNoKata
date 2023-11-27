@@ -7,6 +7,6 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Combat
     public DamageApplierBase(int baseDamage) =>
       BaseDamage = baseDamage;
 
-    public abstract void ApplyDamage(IDamagable damagable);
+    public abstract void ApplyDamage(IDamageable damageable);
   }
 }

@@ -1,6 +1,6 @@
 namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Combat
 {
-  public interface IDamagable
+  public interface IDamageable
   {
     BattleSide Side { get; }
     Health Health { get; }

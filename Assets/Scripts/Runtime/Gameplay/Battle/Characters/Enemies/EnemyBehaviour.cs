@@ -6,7 +6,7 @@ using Zenject;
 namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters.Enemies
 {
   [AddComponentMenu("IchiNoKata/Gameplay/Battle/Characters/Enemy")]
-  public class EnemyBehaviour : MonoBehaviour, IDamagable, IDamageMaker
+  public class EnemyBehaviour : MonoBehaviour, IDamageable, IDamageMaker
   {
     [field: SerializeField] public EnemyMovementBase Movement { get; private set; }
     [field: SerializeField] public int MaxHealth { get; private set; }
