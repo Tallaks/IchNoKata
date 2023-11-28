@@ -9,6 +9,8 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
     private static readonly int CancelChargingAnim = Animator.StringToHash("Cancel");
     private static readonly int AttackAnim = Animator.StringToHash("StartAttack");
     private static readonly int EndAttackAnim = Animator.StringToHash("EndAttack");
+    private static readonly int HitAnim = Animator.StringToHash("Hit");
+    private static readonly int DeadAnim = Animator.StringToHash("Dead");
     [SerializeField] private Animator _animator;
 
     public void StartCharging()
@@ -29,6 +31,16 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
     public void EndAttack()
     {
       _animator.SetTrigger(EndAttackAnim);
+    }
+
+    public void PlayHit()
+    {
+      _animator.SetTrigger(HitAnim);
+    }
+
+    public void PlayDead()
+    {
+      _animator.SetTrigger(DeadAnim);
     }
   }
 }

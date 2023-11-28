@@ -1,5 +1,75 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7472752052351060493
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8759496117895886472}
+  - component: {fileID: 1961359929054719927}
+  - component: {fileID: 861975040027902654}
+  m_Layer: 0
+  m_Name: AttackTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8759496117895886472
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7472752052351060493}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2262298140038985439}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &1961359929054719927
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7472752052351060493}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &861975040027902654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7472752052351060493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14444af51ef14912bd33ce171ff93fbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Animations>k__BackingField: {fileID: 1553075778261349635}
+  <AttackCooldownSec>k__BackingField: 2.6
+  <AttackRange>k__BackingField: 1.5
+  <AttackPerformanceTimeSec>k__BackingField: 0.23
 --- !u!1001 &1074300276465031973
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -73,6 +143,11 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 120173ab021f881409dac785cb77cd34, type: 2}
+    - target: {fileID: 5866666021909216657, guid: b4a5f34120e580f4787923d8030bff61,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -118,6 +193,11 @@ PrefabInstance:
       propertyPath: <BaseDamage>k__BackingField
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 2784357524134367630, guid: 9e05695d2b5e2334593e32d2b368cbec,
+        type: 3}
+      propertyPath: <AttackBehaviour>k__BackingField
+      value: 
+      objectReference: {fileID: 861975040027902654}
     - target: {fileID: 2784357524134367630, guid: 9e05695d2b5e2334593e32d2b368cbec,
         type: 3}
       propertyPath: <PhysicsCollider>k__BackingField
@@ -196,6 +276,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3760607269598577445, guid: 9e05695d2b5e2334593e32d2b368cbec,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8759496117895886472}
     - targetCorrespondingSourceObject: {fileID: 8228078190090768653, guid: 9e05695d2b5e2334593e32d2b368cbec,
         type: 3}
       insertIndex: -1
@@ -245,6 +329,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Animator>k__BackingField: {fileID: 6882128881278379700}
+--- !u!4 &2262298140038985439 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3760607269598577445, guid: 9e05695d2b5e2334593e32d2b368cbec,
+    type: 3}
+  m_PrefabInstance: {fileID: 3122419848292873722}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5945527830619732651 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8779717173643415377, guid: 9e05695d2b5e2334593e32d2b368cbec,

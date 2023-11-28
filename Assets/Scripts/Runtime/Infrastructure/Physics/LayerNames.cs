@@ -2,8 +2,13 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Physics
 {
   public static class LayerNames
   {
-    public static readonly string[] Walkable = { "Walkable" };
-    public static readonly string[] Obstacle = { "Obstacle" };
-    public static readonly string[] Enemies = { "Enemy" };
+    public const string Obstacle = "Obstacle";
+    public const string WalkableSingle = "Walkable";
+    public const string EnemySingle = "Enemy";
+    public const string IgnoreRaycastSingle = "Ignore Raycast";
+
+    public static readonly string[] WalkableMultiple = { WalkableSingle };
+    public static readonly string[] ObstacleMultiple = { Obstacle };
+    public static readonly string[] EnemyMultiple = { EnemySingle };
   }
 }

@@ -7,6 +7,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters.Enemies
   {
     private static readonly int HitAnim = Animator.StringToHash("Hit");
     private static readonly int DeadAnim = Animator.StringToHash("Dead");
+    private static readonly int AttackAnim = Animator.StringToHash("Attack");
 
     [field: SerializeField] public Animator Animator { get; private set; }
 
@@ -18,6 +19,11 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters.Enemies
     public void PlayDead()
     {
       Animator.SetTrigger(DeadAnim);
+    }
+
+    public void PlayAttack()
+    {
+      Animator.SetTrigger(AttackAnim);
     }
   }
 }

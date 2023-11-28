@@ -9,6 +9,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
   public class PlayerBehaviour : MonoBehaviour, IDamageable, IDamageMaker
   {
     [field: SerializeField] public PlayerMovement Movement { get; private set; }
+    [field: SerializeField] public PlayerAnimations Animations { get; private set; }
     [field: SerializeField] public float ChargingTime { get; private set; }
     [field: SerializeField] private Collider _physicsCollider;
 
@@ -59,13 +60,18 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
 
     public void TakeDamage(int damage)
     {
+      if (Health.Current <= 0)
+        return;
       Debug.Log($"Player took {damage} damage!");
       Health.Current -= damage;
+      if (Health.Current > 0)
+        Animations.PlayHit();
     }
 
     public void Die()
     {
       Debug.Log("Player died!");
+      Animations.PlayDead();
     }
   }
 }

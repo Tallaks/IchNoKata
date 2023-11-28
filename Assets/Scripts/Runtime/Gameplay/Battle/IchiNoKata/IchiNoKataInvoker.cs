@@ -15,7 +15,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
   {
     private const float MaxRayDistance = 30f;
 
-    private readonly int _layerMask = LayerMask.GetMask(LayerNames.Walkable);
+    private readonly int _layerMask = LayerMask.GetMask(LayerNames.WalkableMultiple);
     private readonly List<IIchiNoKataSubscriber> _subscribers = new();
 
     private readonly IInputService _inputService;

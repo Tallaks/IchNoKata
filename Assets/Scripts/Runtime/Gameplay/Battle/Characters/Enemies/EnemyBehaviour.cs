@@ -1,5 +1,6 @@
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Combat;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Movement.Enemies;
+using Tallaks.IchiNoKata.Runtime.Infrastructure.Physics;
 using UnityEngine;
 using Zenject;
 
@@ -10,6 +11,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters.Enemies
   {
     [field: SerializeField] public EnemyMovementBase Movement { get; private set; }
     [field: SerializeField] public EnemyAnimations Animations { get; private set; }
+    [field: SerializeField] public EnemyAttackBehaviourBase AttackBehaviour { get; private set; }
     [field: SerializeField] public Collider PhysicsCollider { get; private set; }
     [field: SerializeField] public int MaxHealth { get; private set; }
     [field: SerializeField] public int RegenerationPerSec { get; private set; }
@@ -36,6 +38,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters.Enemies
       Regeneration = new Regeneration(Health, RegenerationPerSec);
       DamageApplier = new ValueDamageApplier(BaseDamage);
       Regeneration.StartRegeneration();
+      AttackBehaviour.Initialize(this);
     }
 
     private void OnDestroy()
@@ -46,6 +49,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters.Enemies
 
     public void TakeDamage(int damage)
     {
+      Debug.Log($"Enemy took {damage} damage!");
       Health.Current -= damage;
       if (Health.Current > 0)
         Animations.PlayHit();
@@ -55,7 +59,8 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters.Enemies
     {
       Debug.Log("Enemy died!");
       Animations.PlayDead();
-      PhysicsCollider.enabled = false;
+      PhysicsCollider.gameObject.layer = LayerMask.NameToLayer(LayerNames.IgnoreRaycastSingle);
+      AttackBehaviour.CanAttack = false;
     }
   }
 }

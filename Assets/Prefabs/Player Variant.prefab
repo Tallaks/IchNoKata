@@ -495,6 +495,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3799048192816889613, guid: 289769dd921b30e4b98998b2cd594af9,
         type: 3}
+      propertyPath: <Animations>k__BackingField
+      value: 
+      objectReference: {fileID: 8322371197837265046}
+    - target: {fileID: 3799048192816889613, guid: 289769dd921b30e4b98998b2cd594af9,
+        type: 3}
       propertyPath: <BaseDamage>k__BackingField
       value: 30
       objectReference: {fileID: 0}
@@ -506,7 +511,7 @@ PrefabInstance:
     - target: {fileID: 4327287540537049383, guid: 289769dd921b30e4b98998b2cd594af9,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.368
       objectReference: {fileID: 0}
     - target: {fileID: 4327287540537049383, guid: 289769dd921b30e4b98998b2cd594af9,
         type: 3}
@@ -516,7 +521,7 @@ PrefabInstance:
     - target: {fileID: 4327287540537049383, guid: 289769dd921b30e4b98998b2cd594af9,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.699
       objectReference: {fileID: 0}
     - target: {fileID: 4327287540537049383, guid: 289769dd921b30e4b98998b2cd594af9,
         type: 3}

@@ -10,7 +10,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
 {
   public class IchiNoKataDamageDealer : IIchiNoKataDamageDealer
   {
-    private readonly int _layerMask = LayerMask.GetMask(LayerNames.Enemies);
+    private readonly int _layerMask = LayerMask.GetMask(LayerNames.EnemyMultiple);
     private readonly IIchiNoKataInvoker _invoker;
     private readonly IEnemyRegistry _enemyRegistry;
 
@@ -54,6 +54,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
 
     public void OnIchiNoKataPerformed()
     {
+      Debug.Log("IchiNoKata performed");
       Vector3 fromPoint = _args.From.WithY(0.1f);
       Vector3 direction = _args.To - _args.From;
 
@@ -70,8 +71,8 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
             damageable.Side != BattleSide.Enemy)
           continue;
         damagedEnemies ??= new HashSet<IDamageable>();
-        damagedEnemies.Add(damageable);
-        damageable.TakeDamage(_args.Damage);
+        if (damagedEnemies.Add(damageable))
+          damageable.TakeDamage(_args.Damage);
       }
 
       int leftHitCount = Physics.RaycastNonAlloc(leftOrigin, direction, _leftHits, ichiNiKataDistance, _layerMask);
