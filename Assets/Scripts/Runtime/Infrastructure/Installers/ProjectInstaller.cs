@@ -36,9 +36,20 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
 
     /// <summary>
     /// Binds next services:
-    /// - IAsyncSceneLoader
-    /// - IInputService
-    /// - self for IInitializable
+    /// <list type="definition">
+    ///   <item>
+    ///     <term>IInitializable</term>
+    ///     <description>Binds to itself as cached for IInitializable interface</description>
+    ///   </item>
+    ///   <item>
+    ///     <term>IAsyncSceneLoader</term>
+    ///     <description>Binds to AsyncSceneLoader as single</description>
+    ///   </item>
+    ///   <item>
+    ///     <term>IInputService</term>
+    ///     <description>Binds to InputService as single</description>
+    ///   </item>
+    /// </list>
     /// </summary>
     public override void InstallBindings()
     {

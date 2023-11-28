@@ -4,9 +4,16 @@ using Cysharp.Threading.Tasks;
 
 namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Combat
 {
+  /// <summary>
+  /// Regeneration component to define regeneration of damageable object
+  /// </summary>
   public class Regeneration
   {
     private readonly Health _health;
+
+    /// <summary>
+    /// Regeneration per second
+    /// </summary>
     public int RegenerationPerSec { get; }
 
     private CancellationTokenSource _cancellationTokenSource;
@@ -17,6 +24,9 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Combat
       RegenerationPerSec = regenerationPerSec;
     }
 
+    /// <summary>
+    /// Starts regeneration loop
+    /// </summary>
     public void StartRegeneration()
     {
       if (RegenerationPerSec <= 0)
@@ -25,6 +35,9 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Combat
       InitializeRegenerationLoop(_cancellationTokenSource.Token);
     }
 
+    /// <summary>
+    /// Cancels regeneration loop
+    /// </summary>
     public void StopRegeneration()
     {
       _cancellationTokenSource?.Cancel();

@@ -13,6 +13,9 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters.Enemies
       _enemies.Add(enemy);
     }
 
+    /// <summary>
+    /// Clears enemies collection
+    /// </summary>
     public void Dispose()
     {
       _enemies.Clear();

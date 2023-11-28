@@ -78,7 +78,7 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
     /// Binds next dependencies:
     /// <list type="definition">
     ///   <item>
-    ///     <term>GameplayInstaller</term>
+    ///     <term>IInitializable</term>
     ///     <description>Binds to itself as cached for IInitializable interface</description>
     ///   </item>
     ///   <item>

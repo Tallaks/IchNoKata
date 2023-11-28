@@ -8,6 +8,9 @@ using UnityEngine;
 
 namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
 {
+  /// <summary>
+  /// Gameplay logic for IchiNoKata damage dealing
+  /// </summary>
   public class IchiNoKataDamageDealer : IIchiNoKataDamageDealer
   {
     private readonly int _layerMask = LayerMask.GetMask(LayerNames.EnemyMultiple);
@@ -26,6 +29,9 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
       _enemyRegistry = enemyRegistry;
     }
 
+    /// <summary>
+    /// Initialize the damage dealer. Subscribe to the invoker. Initialize the raycast hit arrays.
+    /// </summary>
     public void Initialize()
     {
       _invoker.AddSubscriber(this);
@@ -35,6 +41,10 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
       _rightHits = new RaycastHit[_enemyCount];
     }
 
+    /// <summary>
+    /// Save the IchiNoKataArgs for later use
+    /// </summary>
+    /// <param name="args"></param>
     public void OnIchiNoKataStartedCharging(IchiNoKataArgs args)
     {
       _args = args;
@@ -52,6 +62,9 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
     {
     }
 
+    /// <summary>
+    /// After IchiNoKata is performed, raycast from the origin to the destination and deal damage to all enemies hit
+    /// </summary>
     public void OnIchiNoKataPerformed()
     {
       Debug.Log("IchiNoKata performed");
