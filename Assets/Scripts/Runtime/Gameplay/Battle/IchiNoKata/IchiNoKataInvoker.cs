@@ -19,7 +19,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
   {
     private const float MaxRayDistance = 30f;
 
-    private readonly int _layerMask = LayerMask.GetMask(LayerNames.Walkable);
+    private readonly int _layerMask = LayerMask.GetMask(LayerNames.WalkableMultiple);
     private readonly List<IIchiNoKataSubscriber> _subscribers = new();
 
     private readonly IInputService _inputService;
@@ -81,7 +81,8 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
       {
         if (hit.collider.TryGetComponent(out WalkableSpaceBehaviour _))
         {
-          _ichiNoKataArgs = new IchiNoKataArgs(_player.Position, hit.point);
+          _ichiNoKataArgs =
+            new IchiNoKataArgs(_player.Position, hit.point, _player.BaseDamage, _player.IchiNoKataWidth);
           InvokeStartCharging();
           while (_inputService.IsHolding())
           {

@@ -10,7 +10,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Environment
   /// <inheritdoc cref="IObstacleChecker"/>
   public class ObstacleChecker : IObstacleChecker
   {
-    private readonly int _layerMask = LayerMask.GetMask(LayerNames.Obstacle);
+    private readonly int _layerMask = LayerMask.GetMask(LayerNames.ObstacleMultiple);
 
     public Vector3 GetPointCheckedByObstacle(Vector3 from, Vector3 to, float playerSize)
     {

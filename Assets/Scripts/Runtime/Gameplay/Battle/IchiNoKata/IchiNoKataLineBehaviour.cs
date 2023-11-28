@@ -7,7 +7,8 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
   /// <summary>
   /// MonoBehaviour that renders the line between two points
   /// </summary>
-  [AddComponentMenu("IchiNoKata/Gameplay/IchiNoKata Line"), RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
+  [AddComponentMenu("IchiNoKata/Gameplay/IchiNoKata Line")]
+  [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
   public class IchiNoKataLineBehaviour : MonoBehaviour
   {
     private static readonly int ChargeValue = Shader.PropertyToID("_ChargeValue");

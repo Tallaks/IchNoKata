@@ -1,6 +1,7 @@
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters;
+using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters.Enemies;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Environment;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata;
 using Tallaks.IchiNoKata.Runtime.Infrastructure.Screens;
@@ -28,7 +29,8 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
     /// <summary>
     /// Ichi No Kata line behaviour prefab to be used by IchiNoKataDrawer
     /// </summary>
-    [Header("Prefabs"), SerializeField] private IchiNoKataLineBehaviour _ichiNoKataLineBehaviourPrefab;
+    [Header("Prefabs")]
+    [SerializeField] private IchiNoKataLineBehaviour _ichiNoKataLineBehaviourPrefab;
 
 #if UNITY_EDITOR
     /// <summary>
@@ -62,12 +64,13 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
       IchiNoKataVisualSettings.Initialize(config);
       Container.Resolve<ICameraResizer>().Initialize();
       Container.Resolve<ICameraResizer>().Resize();
+      Container.Resolve<IIchiNoKataDamageDealer>().Initialize();
       Container.Resolve<IIchiNoKataDrawer>().Initialize(_ichiNoKataLineBehaviourPrefab);
 
-      _player.Initialize(Container.Resolve<IIchiNoKataInvoker>());
-#if !UNITY_EDITOR
+      var ichiNoKataInvoker = Container.Resolve<IIchiNoKataInvoker>();
+      ichiNoKataInvoker.Initialize(_player);
+      _player.Initialize(ichiNoKataInvoker);
       await Resources.UnloadUnusedAssets();
-#endif
       Debug.Log("Gameplay initialization finished");
     }
 
@@ -97,6 +100,14 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
     ///   <item>
     ///     <term>IObstacleChecker</term>
     ///     <description>Binds to ObstacleChecker as single for IObstacleChecker interface</description>
+    ///   </item>
+    ///   <item>
+    ///     <term>IEnemyRegistry</term>
+    ///     <description>Binds to EnemyRegistry as single for IEnemyRegistry interface</description>
+    ///   </item>
+    ///   <item>
+    ///     <term>IIchiNoKataDamageDealer</term>
+    ///     <description>Binds to IchiNoKataDamageDealer as single for IIchiNoKataDamageDealer interface</description>
     ///   </item>
     /// </list>
     /// </summary>
@@ -133,6 +144,18 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
       Container
         .Bind<IObstacleChecker>()
         .To<ObstacleChecker>()
+        .FromNew()
+        .AsSingle();
+
+      Container
+        .Bind<IEnemyRegistry>()
+        .To<EnemyRegistry>()
+        .FromNew()
+        .AsSingle();
+
+      Container
+        .Bind<IIchiNoKataDamageDealer>()
+        .To<IchiNoKataDamageDealer>()
         .FromNew()
         .AsSingle();
     }

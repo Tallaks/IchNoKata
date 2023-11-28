@@ -8,7 +8,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Movement
   /// <summary>
   /// Movement component for Player
   /// </summary>
-  [AddComponentMenu("IchiNoKata/Gameplay/Battle/Player Movement")]
+  [AddComponentMenu("IchiNoKata/Gameplay/Battle/Movement/Player Movement")]
   public class PlayerMovement : MonoBehaviour, IIchiNoKataSubscriber
   {
     /// <summary>

@@ -9,7 +9,8 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
   /// <summary>
   /// Project installer for commonly used services
   /// </summary>
-  [AddComponentMenu("IchiNoKata/Infrastructure/Installers/Project"), RequireComponent(typeof(ProjectContext))]
+  [AddComponentMenu("IchiNoKata/Infrastructure/Installers/Project")]
+  [RequireComponent(typeof(ProjectContext))]
   public class ProjectInstaller : MonoInstaller, IInitializable
   {
 #if UNITY_EDITOR
