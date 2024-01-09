@@ -4,6 +4,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Combat
 {
   public class Health : IDisposable
   {
+    public event Action<int> OnHealthChanged;
     public event Action OnHealthDepleted;
 
     public int Current
@@ -12,6 +13,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Combat
       set
       {
         _current = value;
+        OnHealthChanged?.Invoke(_current);
         if (_current > Max)
           _current = Max;
         if (_current <= 0)
@@ -32,6 +34,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Combat
     public void Dispose()
     {
       OnHealthDepleted = null;
+      OnHealthChanged = null;
     }
   }
 }

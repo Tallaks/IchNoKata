@@ -110,6 +110,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4444614018607908626}
+  - component: {fileID: 4054796864760199523}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -133,6 +134,19 @@ Transform:
   - {fileID: 3989209012129886292}
   m_Father: {fileID: 4327287540537049383}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4054796864760199523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4740227567923398001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74a3b337c1c44934a1562131b2bf8e3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _healthBarUi: {fileID: 0}
 --- !u!1 &5293242586153978372
 GameObject:
   m_ObjectHideFlags: 0
@@ -184,6 +198,7 @@ MonoBehaviour:
   <Movement>k__BackingField: {fileID: 8322741159589762141}
   <Animations>k__BackingField: {fileID: 0}
   <ChargingTime>k__BackingField: 1
+  _worldUi: {fileID: 4054796864760199523}
   _physicsCollider: {fileID: 5297493464201922532}
   <MaxHealth>k__BackingField: 0
   <RegenerationPerSec>k__BackingField: 0

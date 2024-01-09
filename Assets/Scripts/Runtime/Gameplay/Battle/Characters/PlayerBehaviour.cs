@@ -1,6 +1,7 @@
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Combat;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Movement;
+using Tallaks.IchiNoKata.Runtime.UI.Gameplay;
 using UnityEngine;
 
 namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
@@ -11,6 +12,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
     [field: SerializeField] public PlayerMovement Movement { get; private set; }
     [field: SerializeField] public PlayerAnimations Animations { get; private set; }
     [field: SerializeField] public float ChargingTime { get; private set; }
+    [field: SerializeField] private PlayerWorldUi _worldUi;
     [field: SerializeField] private Collider _physicsCollider;
 
     [field: Header("Health and regeneration")]
@@ -55,7 +57,9 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
       Debug.Assert(BaseDamage > 0, "Base damage is not set!");
       Debug.Assert(IchiNoKataWidth > 0, "IchiNoKata width is not set!");
       Debug.Assert(_physicsCollider != null, "Physics collider is not set!");
+      Debug.Assert(_worldUi != null, "World UI is not set!");
       Movement.Initialize(ichiNoKataInvoker);
+      _worldUi.Initialize(this);
     }
 
     public void TakeDamage(int damage)
