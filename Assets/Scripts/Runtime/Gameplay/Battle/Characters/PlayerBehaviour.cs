@@ -40,8 +40,8 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
 
     public Quaternion Rotation
     {
-      get => transform.rotation;
-      set => transform.rotation = value;
+      get => Movement.transform.rotation;
+      set => Movement.transform.rotation = value;
     }
 
     public void Initialize(IIchiNoKataInvoker ichiNoKataInvoker)
