@@ -66,7 +66,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
         if (hit.collider.TryGetComponent(out WalkableSpaceBehaviour _))
         {
           _ichiNoKataArgs =
-            new IchiNoKataArgs(_player.Position, hit.point, _player.BaseDamage, _player.IchiNoKataWidth);
+            new IchiNoKataArgs(_player.Position, hit.point, _player.IchiNoKataWidth);
           InvokeStartCharging();
           while (_inputService.IsHolding())
           {

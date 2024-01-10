@@ -2,6 +2,7 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters.Enemies;
+using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Combat;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Environment;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata;
 using Tallaks.IchiNoKata.Runtime.Infrastructure.Screens;
@@ -33,16 +34,19 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
       Debug.Assert(_camera != null, "Camera is not set");
       Debug.Assert(_player != null, "Player is not set");
 
+      var damageNumberService = Container.Resolve<IDamageNumberService>();
+      var ichiNoKataInvoker = Container.Resolve<IIchiNoKataInvoker>();
+
       var config = await Resources.LoadAsync<IchiNoKataConfig>("Configs/IchiNoKataConfig") as IchiNoKataConfig;
       IchiNoKataVisualSettings.Initialize(config);
       Container.Resolve<ICameraResizer>().Initialize();
       Container.Resolve<ICameraResizer>().Resize();
-      Container.Resolve<IIchiNoKataDamageDealer>().Initialize();
       Container.Resolve<IIchiNoKataDrawer>().Initialize(_ichiNoKataLineBehaviourPrefab);
 
-      var ichiNoKataInvoker = Container.Resolve<IIchiNoKataInvoker>();
-      ichiNoKataInvoker.Initialize(_player);
+      await damageNumberService.InitializeAsync();
       _player.Initialize(ichiNoKataInvoker);
+      ichiNoKataInvoker.Initialize(_player);
+      Container.Resolve<IIchiNoKataDamageDealer>().Initialize(_player);
       await Resources.UnloadUnusedAssets();
       Debug.Log("Gameplay initialization finished");
     }
@@ -92,6 +96,12 @@ namespace Tallaks.IchiNoKata.Runtime.Infrastructure.Installers
       Container
         .Bind<IIchiNoKataDamageDealer>()
         .To<IchiNoKataDamageDealer>()
+        .FromNew()
+        .AsSingle();
+
+      Container
+        .Bind<IDamageNumberService>()
+        .To<DamageNumberService>()
         .FromNew()
         .AsSingle();
     }

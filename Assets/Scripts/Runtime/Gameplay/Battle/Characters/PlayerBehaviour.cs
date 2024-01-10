@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
 {
   [AddComponentMenu("IchiNoKata/Gameplay/Battle/Characters/Player")]
-  public class PlayerBehaviour : MonoBehaviour, IDamageable, IDamageMaker
+  public class PlayerBehaviour : MonoBehaviour, IDamageable
   {
     [field: SerializeField] public PlayerMovement Movement { get; private set; }
     [field: SerializeField] public PlayerAnimations Animations { get; private set; }
@@ -30,7 +30,6 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
     public Health Health { get; private set; }
     public Regeneration Regeneration { get; private set; }
     public BattleSide Side => BattleSide.Player;
-    public DamageApplierBase DamageApplier { get; private set; }
 
     public float Size => _physicsCollider.bounds.extents.z;
 
@@ -50,7 +49,6 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
     {
       Health = new Health(MaxHealth, Die);
       Regeneration = new Regeneration(Health, RegenerationPerSec);
-      DamageApplier = new ValueDamageApplier(BaseDamage);
       Debug.Assert(MaxHealth > 0, "Max health is not set!");
       Debug.Assert(Movement != null, "Movement is null!");
       Debug.Assert(ChargingTime > 0, "Charging time is not set!");
@@ -62,8 +60,9 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
       _worldUi.Initialize(this);
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, out int damageTaken)
     {
+      damageTaken = damage;
       if (Health.Current <= 0)
         return;
       Debug.Log($"Player took {damage} damage!");

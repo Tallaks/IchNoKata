@@ -7,7 +7,7 @@ using Zenject;
 namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters.Enemies
 {
   [AddComponentMenu("IchiNoKata/Gameplay/Battle/Characters/Enemy")]
-  public class EnemyBehaviour : MonoBehaviour, IDamageable, IDamageMaker
+  public class EnemyBehaviour : MonoBehaviour, IDamageable
   {
     [field: SerializeField] public EnemyMovementBase Movement { get; private set; }
     [field: SerializeField] public EnemyAnimations Animations { get; private set; }
@@ -15,19 +15,18 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters.Enemies
     [field: SerializeField] public Collider PhysicsCollider { get; private set; }
     [field: SerializeField] public int MaxHealth { get; private set; }
     [field: SerializeField] public int RegenerationPerSec { get; private set; }
-    [field: SerializeField] public int BaseDamage { get; private set; }
     public Health Health { get; private set; }
     public Regeneration Regeneration { get; private set; }
     public BattleSide Side => BattleSide.Enemy;
-    public DamageApplierBase DamageApplier { get; private set; }
+    private IDamageNumberService _damageNumberService;
     private IEnemyRegistry _enemyRegistry;
 
     //TODO: make enemy factory and Initialize method to remove this
-
     [Inject]
-    private void Construct(IEnemyRegistry enemyRegistry)
+    private void Construct(IEnemyRegistry enemyRegistry, IDamageNumberService damageNumberService)
     {
       _enemyRegistry = enemyRegistry;
+      _damageNumberService = damageNumberService;
     }
 
     private void Awake()
@@ -36,9 +35,8 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters.Enemies
       _enemyRegistry.Register(this);
       Health = new Health(MaxHealth, Die);
       Regeneration = new Regeneration(Health, RegenerationPerSec);
-      DamageApplier = new ValueDamageApplier(BaseDamage);
       Regeneration.StartRegeneration();
-      AttackBehaviour.Initialize(this);
+      AttackBehaviour.Initialize(this, _damageNumberService);
     }
 
     private void OnDestroy()
@@ -47,8 +45,9 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters.Enemies
       Health.Dispose();
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, out int damageTaken)
     {
+      damageTaken = damage;
       Debug.Log($"Enemy took {damage} damage!");
       Health.Current -= damage;
       if (Health.Current > 0)

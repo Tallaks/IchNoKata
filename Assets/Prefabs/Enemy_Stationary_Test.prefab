@@ -66,6 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14444af51ef14912bd33ce171ff93fbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <BaseDamage>k__BackingField: 10
   <Animations>k__BackingField: {fileID: 1553075778261349635}
   <AttackCooldownSec>k__BackingField: 2.6
   <AttackRange>k__BackingField: 1.5

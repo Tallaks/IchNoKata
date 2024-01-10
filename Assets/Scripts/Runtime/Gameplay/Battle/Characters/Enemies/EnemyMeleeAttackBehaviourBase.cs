@@ -60,9 +60,9 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters.Enemies
         StopAllCoroutines();
     }
 
-    public override void Initialize(EnemyBehaviour owner)
+    public override void Initialize(EnemyBehaviour owner, IDamageNumberService damageNumberService)
     {
-      _damage = owner.BaseDamage;
+      base.Initialize(owner, damageNumberService);
       _collider.radius = AttackRange;
     }
 
@@ -78,7 +78,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters.Enemies
         yield return _waitCooldownInstruction;
         Animations.PlayAttack();
         yield return _waitAttackPerformed;
-        damageable.TakeDamage(_damage);
+        DamageApplier.ApplyDamage(damageable);
       }
     }
   }

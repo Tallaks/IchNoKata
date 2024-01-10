@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters.Enemies;
 using Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Combat;
 using Tallaks.IchiNoKata.Runtime.Infrastructure.Extensions;
@@ -13,6 +14,10 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
     private readonly int _layerMask = LayerMask.GetMask(LayerNames.EnemyMultiple);
     private readonly IIchiNoKataInvoker _invoker;
     private readonly IEnemyRegistry _enemyRegistry;
+    private readonly IDamageNumberService _damageNumberService;
+
+    public int BaseDamage { get; private set; }
+    public DamageApplierBase DamageApplier { get; private set; }
 
     private IchiNoKataArgs _args;
     private RaycastHit[] _centralHits;
@@ -20,14 +25,18 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
     private RaycastHit[] _leftHits;
     private RaycastHit[] _rightHits;
 
-    public IchiNoKataDamageDealer(IIchiNoKataInvoker invoker, IEnemyRegistry enemyRegistry)
+    public IchiNoKataDamageDealer(IIchiNoKataInvoker invoker, IEnemyRegistry enemyRegistry,
+      IDamageNumberService damageNumberService)
     {
+      _damageNumberService = damageNumberService;
       _invoker = invoker;
       _enemyRegistry = enemyRegistry;
     }
 
-    public void Initialize()
+    public void Initialize(PlayerBehaviour playableBehaviour)
     {
+      BaseDamage = playableBehaviour.BaseDamage;
+      DamageApplier = new ValueDamageApplier(BaseDamage, _damageNumberService);
       _invoker.AddSubscriber(this);
       _enemyCount = _enemyRegistry.Enemies.Count();
       _centralHits = new RaycastHit[_enemyCount];
@@ -72,7 +81,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
           continue;
         damagedEnemies ??= new HashSet<IDamageable>();
         if (damagedEnemies.Add(damageable))
-          damageable.TakeDamage(_args.Damage);
+          DamageApplier.ApplyDamage(damageable);
       }
 
       int leftHitCount = Physics.RaycastNonAlloc(leftOrigin, direction, _leftHits, ichiNiKataDistance, _layerMask);
@@ -83,7 +92,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
           continue;
         damagedEnemies ??= new HashSet<IDamageable>();
         if (damagedEnemies.Add(damageable))
-          damageable.TakeDamage(_args.Damage);
+          DamageApplier.ApplyDamage(damageable);
       }
 
       int rightHitCount = Physics.RaycastNonAlloc(rightOrigin, direction, _rightHits, ichiNiKataDistance, _layerMask);
@@ -94,7 +103,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.IchiNoKata
           continue;
         damagedEnemies ??= new HashSet<IDamageable>();
         if (damagedEnemies.Add(damageable))
-          damageable.TakeDamage(_args.Damage);
+          DamageApplier.ApplyDamage(damageable);
       }
     }
   }
