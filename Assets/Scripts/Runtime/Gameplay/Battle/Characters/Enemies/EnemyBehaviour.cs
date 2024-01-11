@@ -17,6 +17,9 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters.Enemies
     [field: SerializeField] public int RegenerationPerSec { get; private set; }
     public Health Health { get; private set; }
     public Regeneration Regeneration { get; private set; }
+
+    public Vector3 Position => transform.position;
+
     public BattleSide Side => BattleSide.Enemy;
     private IDamageNumberService _damageNumberService;
     private IEnemyRegistry _enemyRegistry;

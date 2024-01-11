@@ -5,6 +5,6 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Combat
   public interface IDamageNumberService
   {
     UniTask InitializeAsync();
-    void ShowDamageNumber(int damageTaken);
+    void ShowDamageNumber(int damageTaken, IDamageable damageable);
   }
 }

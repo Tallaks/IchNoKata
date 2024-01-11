@@ -31,13 +31,13 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Characters
     public Regeneration Regeneration { get; private set; }
     public BattleSide Side => BattleSide.Player;
 
-    public float Size => _physicsCollider.bounds.extents.z;
-
     public Vector3 Position
     {
       get => transform.position;
       set => transform.position = value;
     }
+
+    public float Size => _physicsCollider.bounds.extents.z;
 
     public Quaternion Rotation
     {

@@ -387,7 +387,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   permanent: 0
-  lifetime: 2
+  lifetime: 1
   unscaledTime: 0
   enable3DGame: 0
   faceCameraView: 1
@@ -529,35 +529,35 @@ MonoBehaviour:
       m_NumAlphaKeys: 2
     fromNumber: 10
     toNumber: 100
-  durationFadeIn: 0.2
-  enableOffsetFadeIn: 0
-  offsetFadeIn: {x: 0.5, y: 0}
+  durationFadeIn: 0.25
+  enableOffsetFadeIn: 1
+  offsetFadeIn: {x: 0, y: 0.5}
   enableScaleFadeIn: 1
-  scaleFadeIn: {x: 1, y: 2}
-  enableCrossScaleFadeIn: 0
+  scaleFadeIn: {x: 0.5, y: 2}
+  enableCrossScaleFadeIn: 1
   crossScaleFadeIn: {x: 1, y: 1.5}
   enableShakeFadeIn: 1
-  shakeOffsetFadeIn: {x: 0, y: 1.5}
-  shakeFrequencyFadeIn: 2
-  durationFadeOut: 0.2
-  enableOffsetFadeOut: 0
-  offsetFadeOut: {x: 0.5, y: 0}
+  shakeOffsetFadeIn: {x: 0, y: 2.5}
+  shakeFrequencyFadeIn: 4
+  durationFadeOut: 0.3
+  enableOffsetFadeOut: 1
+  offsetFadeOut: {x: 0, y: -0.2}
   enableScaleFadeOut: 1
-  scaleFadeOut: {x: 0.6, y: 1.4}
-  enableCrossScaleFadeOut: 0
+  scaleFadeOut: {x: 0.8, y: 1.2}
+  enableCrossScaleFadeOut: 1
   crossScaleFadeOut: {x: 1, y: 1.5}
   enableShakeFadeOut: 1
-  shakeOffsetFadeOut: {x: 0, y: -1}
-  shakeFrequencyFadeOut: 2
-  enableLerp: 1
+  shakeOffsetFadeOut: {x: 0, y: 1.5}
+  shakeFrequencyFadeOut: 4
+  enableLerp: 0
   lerpSettings:
     speed: 5
     minX: -0.1
     maxX: 0.1
-    minY: 0.3
-    maxY: 0.5
+    minY: 0.6
+    maxY: 0.8
     randomFlip: 0
-  enableVelocity: 0
+  enableVelocity: 1
   velocitySettings:
     minX: -1
     maxX: 1
@@ -580,9 +580,9 @@ MonoBehaviour:
   minRotation: -4
   maxRotation: 4
   rotationRandomFlip: 0
-  enableRotateOverTime: 0
-  minRotationSpeed: -15
-  maxRotationSpeed: 15
+  enableRotateOverTime: 1
+  minRotationSpeed: -10
+  maxRotationSpeed: 10
   rotationSpeedRandomFlip: 0
   rotateOverTime:
     serializedVersion: 2
@@ -597,17 +597,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.4
+      time: 0.2
       value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.8
-      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -632,7 +623,7 @@ MonoBehaviour:
     toNumber: 1000
     fromScale: 1
     toScale: 1.25
-  enableScaleOverTime: 0
+  enableScaleOverTime: 1
   scaleOverTime:
     serializedVersion: 2
     m_Curve:
@@ -647,7 +638,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 0.7
+      value: 0.8
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -658,12 +649,12 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   spamGroup: Default
-  enableCombination: 1
+  enableCombination: 0
   combinationSettings:
-    method: 1
+    method: 0
     maxDistance: 10
-    spawnDelay: 0.3
-    absorbDuration: 0.25
+    spawnDelay: 0.2
+    absorbDuration: 0.4
     scaleCurve:
       serializedVersion: 2
       m_Curve:
@@ -712,11 +703,11 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    moveToAbsorber: 0
+    moveToAbsorber: 1
     teleportToAbsorber: 0
-    absorberScaleFactor: 1
+    absorberScaleFactor: 1.5
     absorberScaleFade: 15
-    instantGain: 1
+    instantGain: 0
     bonusLifetime: 1
   enableDestruction: 0
   destructionSettings:
@@ -778,8 +769,8 @@ MonoBehaviour:
     desiredDirection: {x: 0, y: 0, z: 0}
   enablePush: 0
   pushSettings:
-    radius: 3
-    pushOffset: 1
+    radius: 4
+    pushOffset: 0.5
   updateDelay: 0.0125
   enablePooling: 0
   poolSize: 50

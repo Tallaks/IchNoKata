@@ -10,7 +10,7 @@ namespace Tallaks.IchiNoKata.Runtime.Gameplay.Battle.Combat
     public override void ApplyDamage(IDamageable damageable)
     {
       damageable.TakeDamage(BaseDamage, out int takenDamage);
-      DamageNumberService.ShowDamageNumber(takenDamage);
+      DamageNumberService.ShowDamageNumber(takenDamage, damageable);
     }
   }
 }
